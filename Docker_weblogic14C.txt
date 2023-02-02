@@ -1,0 +1,488 @@
+*****************************************DCOKER WEBLOGIC USING DOCKER FILE***********************************************************
+Step 1) We need to install docker on centos 
+
+#sudo yum install -y yum-utils
+
+#yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+#yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+#docker version
+
+#service docker start
+
+#chkconfig docker on
+
+#ps -ef | grep docker
+
+***************************************************************************************************************************************
+Step 2) create one directory
+
+#mkdir DOCKER
+#cd DOCKER/
+***************************************************************************************************************************************
+Setp 3) install Git 
+
+#yum install git
+[root@localhost DOCKER]# yum install git
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: hk.mirrors.thegigabit.com
+ * extras: hk.mirrors.thegigabit.com
+ * updates: hk.mirrors.thegigabit.com
+Resolving Dependencies
+--> Running transaction check
+---> Package git.x86_64 0:1.8.3.1-23.el7_8 will be installed
+--> Processing Dependency: perl-Git = 1.8.3.1-23.el7_8 for package: git-1.8.3.1-23.el7_8.x86_64
+--> Processing Dependency: perl(Term::ReadKey) for package: git-1.8.3.1-23.el7_8.x86_64
+--> Processing Dependency: perl(Git) for package: git-1.8.3.1-23.el7_8.x86_64
+--> Processing Dependency: perl(Error) for package: git-1.8.3.1-23.el7_8.x86_64
+--> Running transaction check
+---> Package perl-Error.noarch 1:0.17020-2.el7 will be installed
+---> Package perl-Git.noarch 0:1.8.3.1-23.el7_8 will be installed
+---> Package perl-TermReadKey.x86_64 0:2.30-20.el7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+============================================================================================================
+ Package                       Arch                Version                          Repository         Size
+============================================================================================================
+Installing:
+ git                           x86_64              1.8.3.1-23.el7_8                 base              4.4 M
+Installing for dependencies:
+ perl-Error                    noarch              1:0.17020-2.el7                  base               32 k
+ perl-Git                      noarch              1.8.3.1-23.el7_8                 base               56 k
+ perl-TermReadKey              x86_64              2.30-20.el7                      base               31 k
+
+Transaction Summary
+============================================================================================================
+Install  1 Package (+3 Dependent packages)
+
+Total download size: 4.5 M
+Installed size: 22 M
+Is this ok [y/d/N]: y
+Downloading packages:
+(1/4): perl-Git-1.8.3.1-23.el7_8.noarch.rpm                                          |  56 kB  00:00:02
+(2/4): perl-Error-0.17020-2.el7.noarch.rpm                                           |  32 kB  00:00:02
+(3/4): perl-TermReadKey-2.30-20.el7.x86_64.rpm                                       |  31 kB  00:00:02
+(4/4): git-1.8.3.1-23.el7_8.x86_64.rpm                                               | 4.4 MB  00:00:06
+------------------------------------------------------------------------------------------------------------
+Total                                                                       746 kB/s | 4.5 MB  00:00:06
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : 1:perl-Error-0.17020-2.el7.noarch                                                        1/4
+  Installing : perl-TermReadKey-2.30-20.el7.x86_64                                                      2/4
+  Installing : perl-Git-1.8.3.1-23.el7_8.noarch                                                         3/4
+  Installing : git-1.8.3.1-23.el7_8.x86_64                                                              4/4
+  Verifying  : git-1.8.3.1-23.el7_8.x86_64                                                              1/4
+  Verifying  : 1:perl-Error-0.17020-2.el7.noarch                                                        2/4
+  Verifying  : perl-Git-1.8.3.1-23.el7_8.noarch                                                         3/4
+  Verifying  : perl-TermReadKey-2.30-20.el7.x86_64                                                      4/4
+
+Installed:
+  git.x86_64 0:1.8.3.1-23.el7_8
+
+Dependency Installed:
+  perl-Error.noarch 1:0.17020-2.el7                      perl-Git.noarch 0:1.8.3.1-23.el7_8
+  perl-TermReadKey.x86_64 0:2.30-20.el7
+
+Complete!
+[root@localhost DOCKER]# git clone https://github.com/oracle/docker-images
+Cloning into 'docker-images'...
+remote: Enumerating objects: 15968, done.
+remote: Counting objects: 100% (190/190), done.
+remote: Compressing objects: 100% (152/152), done.
+remote: Total 15968 (delta 73), reused 133 (delta 38), pack-reused 15778
+Receiving objects: 100% (15968/15968), 10.49 MiB | 778.00 KiB/s, done.
+Resolving deltas: 100% (9387/9387), done.
+
+***************************************************************************************************************************************
+Step 4) Clone git repopsitory to local system using below command
+
+#git clone https://github.com/oracle/docker-images
+
+
+[root@localhost DOCKER]# ls -ltr
+total 4
+drwxr-xr-x 32 root root 4096 Sep 19 01:47 docker-images
+***************************************************************************************************************************************
+Step 5) goto /DOCKER/docker-images/OracleJava/8
+[root@localhost DOCKER]#cd /docker-images/OracleJava
+
+[root@localhost OracleJava]# ll
+total 4
+drwxr-xr-x 2 root root   60 Sep 19 01:47 11
+drwxr-xr-x 2 root root   40 Sep 19 01:47 17
+drwxr-xr-x 2 root root   40 Sep 19 01:47 18
+drwxr-xr-x 2 root root   60 Sep 19 01:47 8
+-rw-r--r-- 1 root root 3536 Sep 19 01:47 README.md
+[root@localhost OracleJava]# cd 8/
+[root@localhost 8]# ll
+total 12
+-rwxr-xr-x 1 root root  477 Sep 19 01:47 build.sh
+-rw-r--r-- 1 root root 2536 Sep 19 01:47 Dockerfile
+-rw-r--r-- 1 root root 2595 Sep 19 01:47 Dockerfile.8
+[root@localhost 8]# vi Dockerfile.8
+[root@localhost 8]# pwd
+/DOCKER/docker-images/OracleJava/8
+
+
+
+Download from https://www.oracle.com/java/technologies/javase-server-jre8-downloads.html
+copy this jre binary into server server-jre-8u341-linux-x64.tar
+
+[root@localhost 8]# ./build.sh
+Building Oracle Server JRE 8 on Oracle Linux 7 slim
+Sending build context to Docker daemon  55.72MB
+Step 1/13 : FROM oraclelinux:7-slim as builder
+7-slim: Pulling from library/oraclelinux
+9815334b7810: Pull complete
+Digest: sha256:e63584e0060861cd5301a9fc924b087f32ba28c380126b32ed4874d52bf02051
+Status: Downloaded newer image for oraclelinux:7-slim
+ ---> 6a34bf539669
+Step 2/13 : MAINTAINER Aurelio Garcia-Ribeyro <aurelio.garciaribeyro@oracle.com>
+ ---> Running in acb342aa1d61
+Removing intermediate container acb342aa1d61
+ ---> ba1f7980a56d
+Step 3/13 : RUN set -eux;       yum install -y          gzip            tar     ;       rm -rf /var/cache/yu                                                            m
+ ---> Running in fa76351993fd
++ yum install -y gzip tar
+Loaded plugins: ovl
+Package 2:tar-1.26-35.el7.x86_64 already installed and latest version
+Resolving Dependencies
+--> Running transaction check
+---> Package gzip.x86_64 0:1.5-11.el7_9 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+================================================================================
+ Package       Arch            Version                Repository           Size
+================================================================================
+Installing:
+ gzip          x86_64          1.5-11.el7_9           ol7_latest          129 k
+
+Transaction Summary
+================================================================================
+Install  1 Package
+
+Total download size: 129 k
+Installed size: 245 k
+Downloading packages:
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : gzip-1.5-11.el7_9.x86_64                                     1/1
+  Verifying  : gzip-1.5-11.el7_9.x86_64                                     1/1
+
+Installed:
+  gzip.x86_64 0:1.5-11.el7_9
+
+Complete!
++ rm -rf /var/cache/yum
+Removing intermediate container fa76351993fd
+ ---> ffcb1ca5d35a
+Step 4/13 : ENV LANG en_US.UTF-8
+ ---> Running in 29037970cbb8
+Removing intermediate container 29037970cbb8
+ ---> b8ffda8fef1d
+Step 5/13 : ENV JAVA_PKG=server-jre-8u341-linux-x64.tar.gz      JAVA_SHA256=71c5ef1d73737e324b5aff491a0603f6a9698006132d788df11ea6883b5d3b1b    JAVA_HOME=/usr/java/jdk-8
+ ---> Running in d1be59f982e4
+Removing intermediate container d1be59f982e4
+ ---> 51bdffc5cdfa
+Step 6/13 : COPY $JAVA_PKG /tmp/jdk.tgz
+ ---> 6bf8000376d1
+Step 7/13 : RUN set -eux;       echo "$JAVA_SHA256 */tmp/jdk.tgz" | sha256sum -c -;     mkdir -p "$JAVA_HOME";  tar --extract --file /tmp/jdk.tgz --directory "$JAVA_HOME" --strip-components 1;
+ ---> Running in 318e50fe4f78
++ echo '71c5ef1d73737e324b5aff491a0603f6a9698006132d788df11ea6883b5d3b1b */tmp/jdk.tgz'
++ sha256sum -c -
+/tmp/jdk.tgz: OK
++ mkdir -p /usr/java/jdk-8
++ tar --extract --file /tmp/jdk.tgz --directory /usr/java/jdk-8 --strip-components 1
+Removing intermediate container 318e50fe4f78
+ ---> 423f89305ab1
+Step 8/13 : FROM oraclelinux:7-slim
+ ---> 6a34bf539669
+Step 9/13 : ENV LANG en_US.UTF-8
+ ---> Running in 963a3077deed
+Removing intermediate container 963a3077deed
+ ---> b1827f6745ff
+Step 10/13 : ENV JAVA_VERSION=1.8.0_341         JAVA_HOME=/usr/java/jdk-8
+ ---> Running in 139537fd5594
+Removing intermediate container 139537fd5594
+ ---> ffb51d84f058
+Step 11/13 : ENV        PATH $JAVA_HOME/bin:$PATH
+ ---> Running in f62ffbee7319
+Removing intermediate container f62ffbee7319
+ ---> e6d5cff29125
+Step 12/13 : COPY --from=builder $JAVA_HOME $JAVA_HOME
+ ---> 63f9ff4bf1a7
+Step 13/13 : RUN        yum -y update;  rm -rf /var/cache/yum;  ln -sfT "$JAVA_HOME" /usr/java/default;         ln -sfT "$JAVA_HOME" /usr/java/latest;  for bin in "$JAVA_HOME/bin/"*; do               base="$(basename "$bin")";              [ ! -e "/usr/bin/$base" ];              alternatives --install "/usr/bin/$base" "$base" "$bin" 20000;   done;   java -Xshare:dump;
+ ---> Running in 1365d372d5e5
+Loaded plugins: ovl
+No packages marked for update
+Allocated shared space: 37871616 bytes at 0x0000000800000000
+Loading classes to share ...
+Preload Warning: Cannot find javax/swing/plaf/basic/BasicRadioButtonUI$KeyHandler
+Preload Warning: Cannot find javax/swing/plaf/basic/BasicRadioButtonUI$SelectPreviousBtn
+Preload Warning: Cannot find javax/swing/plaf/basic/BasicRadioButtonUI$SelectNextBtn
+Preload Warning: Cannot find sun/security/provider/DSA$LegacyDSA
+Loading classes to share: done.
+Rewriting and linking classes ...
+Rewriting and linking classes: done
+Number of classes 2571
+    instance classes   =  2557
+    obj array classes  =     6
+    type array classes =     8
+Calculating fingerprints ... done.
+Removing unshareable information ... done.
+Shared Lookup Cache Table Buckets = 8216 bytes
+Shared Lookup Cache Table Body = 65984 bytes
+ro space:   7197856 [ 35.2% of total] out of  16777216 bytes [42.9% used] at 0x0000000800000000
+rw space:  11508040 [ 56.3% of total] out of  16777216 bytes [68.6% used] at 0x0000000801000000
+md space:   1687696 [  8.3% of total] out of   4194304 bytes [40.2% used] at 0x0000000802000000
+mc space:     34053 [  0.2% of total] out of    122880 bytes [27.7% used] at 0x0000000802400000
+total   :  20427645 [100.0% of total] out of  37871616 bytes [53.9% used]
+Removing intermediate container 1365d372d5e5
+ ---> 64c52536e409
+Successfully built 64c52536e409
+Successfully tagged oracle/serverjre:8
+Successfully tagged oracle/serverjre:8-oraclelinux7
+[root@localhost 8]
+
+
+
+
+
+
+
+
+[root@localhost 8]# docker images
+REPOSITORY         TAG              IMAGE ID       CREATED              SIZE
+oracle/serverjre   8                64c52536e409   About a minute ago   316MB
+oracle/serverjre   8-oraclelinux7   64c52536e409   About a minute ago   316MB
+<none>             <none>           423f89305ab1   2 minutes ago        352MB
+oraclelinux        7-slim           6a34bf539669   3 weeks ago          133MB
+
+
+
+
+
+[root@localhost 8]# pwd
+/DOCKER/docker-images/OracleJava/8
+[root@localhost 8]# cd ../../OracleWebLogic/
+dockerfiles/ samples/
+[root@localhost 8]# cd ../../OracleWebLogic/dockerfiles/14.1.1.0/
+
+copy this binary
+fmw_14.1.1.0.0_wls_lite_Disk1_1of1.zip
+[root@localhost 14.1.1.0]# ll
+total 622916
+-rwxr-xr-x 1 root root       237 Sep 19 01:47 Checksum.developer
+-rwxr-xr-x 1 root root       232 Sep 19 01:47 Checksum.generic
+-rwxr-xr-x 1 root root       234 Sep 19 01:47 Checksum.slim
+drwxr-xr-x 2 root root       100 Sep 19 01:47 container-scripts
+-rwxr-xr-x 1 root root      4482 Sep 19 01:47 Dockerfile.developer-11
+-rwxr-xr-x 1 root root      4492 Sep 19 01:47 Dockerfile.developer-8
+-rwxr-xr-x 1 root root      4442 Sep 19 01:47 Dockerfile.generic-11
+-rwxr-xr-x 1 root root      4452 Sep 19 01:55 Dockerfile.generic-8
+-rwxr-xr-x 1 root root      4464 Sep 19 01:47 Dockerfile.slim-11
+-rwxr-xr-x 1 root root      4474 Sep 19 01:47 Dockerfile.slim-8
+-rwxr-xr-x 1 root root       225 Sep 19 01:47 fmw_14.1.1.0.0_wls_Disk1_1of1.zip.download
+-rw-r--r-- 1 root root 637756056 Aug 28  2021 fmw_14.1.1.0.0_wls_lite_Disk1_1of1.zip
+-rwxr-xr-x 1 root root       230 Sep 19 01:47 fmw_14.1.1.0.0_wls_lite_Disk1_1of1.zip.download
+-rwxr-xr-x 1 root root       234 Sep 19 01:47 fmw_14.1.1.0.0_wls_lite_quick_Disk1_1of1.zip.download
+-rwxr-xr-x 1 root root       232 Sep 19 01:47 fmw_14.1.1.0.0_wls_lite_slim_Disk1_1of1.zip.download
+-rwxr-xr-x 1 root root       229 Sep 19 01:47 fmw_14.1.1.0.0_wls_quick_Disk1_1of1.zip.download
+-rwxr-xr-x 1 root root       233 Sep 19 01:47 fmw_14.1.1.0.0_wls_quick_slim_Disk1_1of1.zip.download
+-rwxr-xr-x 1 root root       201 Sep 19 01:47 install.file
+-rwxr-xr-x 1 root root        55 Sep 19 01:47 oraInst.loc
+drwxr-xr-x 2 root root        31 Sep 19 01:47 properties
+-rwxr-xr-x 1 root root      9143 Sep 19 01:47 README.md
+[root@localhost 14.1.1.0]#
+
+
+
+
+
+
+
+[root@localhost 14.1.1.0]# cd ..
+[root@localhost dockerfiles]# ll
+total 16
+drwxr-xr-x 4 root root  315 Sep 19 01:47 12.2.1.3
+drwxr-xr-x 4 root root 4096 Sep 19 01:47 12.2.1.4
+drwxr-xr-x 4 root root 4096 Sep 19 01:55 14.1.1.0
+-rwxr-xr-x 1 root root 4803 Sep 19 01:53 buildDockerImage.sh
+[root@localhost dockerfiles]# ./buildDockerImage.sh -v 14.1.1.0
+Set- WebLogic's Version 14.1.1.0
+Invalid distribution, please elect one distribution only: -d, -m, or -g
+[root@localhost dockerfiles]# ./buildDockerImage.sh -v 14.1.1.0 -g
+Set- WebLogic's Version 14.1.1.0
+Set- Distribution:Generic
+Version= 14.1.1.0 Distribution= generic-8
+Checking if required packages are present and valid...
+fmw_14.1.1.0.0_wls_lite_Disk1_1of1.zip: OK
+=====================
+Building image 'oracle/weblogic:14.1.1.0-generic-8' ...
+Building image using Dockerfile.'generic-8'
+Sending build context to Docker daemon  637.8MB
+Step 1/19 : FROM oracle/serverjre:8 as builder
+ ---> 64c52536e409
+Step 2/19 : LABEL "provider"="Oracle"                                                     "maintainer"="Monica Riccelli <monica.riccelli@oracle.com>"             "issues"="https://github.com/oracle/docker-images/issues"               "port.admin.listen"="7001"                                              "port.administration"="9002"
+ ---> Running in 5a851f7179f4
+Removing intermediate container 5a851f7179f4
+ ---> ac65ebc1952e
+Step 3/19 : ENV ORACLE_HOME=/u01/oracle     USER_MEM_ARGS="-Djava.security.egd=file:/dev/./urandom"     PATH=$PATH:${JAVA_HOME}/bin:/u01/oracle/oracle_common/common/bin:/u01/oracle/wlserver/common/bin
+ ---> Running in d54e6a452f7e
+Removing intermediate container d54e6a452f7e
+ ---> 7640372dbf3c
+Step 4/19 : RUN mkdir /u01 &&     useradd -b /u01 -d /u01/oracle -m -s /bin/bash oracle &&     chown oracle:root -R /u01 &&     chmod -R 775 /u01
+ ---> Running in b4883569a480
+Removing intermediate container b4883569a480
+ ---> e1e3e1ee2671
+Step 5/19 : ENV FMW_PKG=fmw_14.1.1.0.0_wls_lite_Disk1_1of1.zip     FMW_JAR=fmw_14.1.1.0.0_wls_lite_generic.jar
+ ---> Running in 451aac7b8686
+Removing intermediate container 451aac7b8686
+ ---> 385edb367bcf
+Step 6/19 : COPY --chown=oracle:root $FMW_PKG install.file oraInst.loc /u01/
+ ---> 7bc17edacc71
+Step 7/19 : USER oracle
+ ---> Running in f0adfebf8598
+Removing intermediate container f0adfebf8598
+ ---> bfb341ea1b68
+Step 8/19 : RUN cd /u01 && ${JAVA_HOME}/bin/jar xf /u01/$FMW_PKG && cd - &&     ${JAVA_HOME}/bin/java -jar /u01/$FMW_JAR -silent -responseFile /u01/install.file -invPtrLoc /u01/oraInst.loc -jreLoc $JAVA_HOME -ignoreSysPrereqs -force -novalidation ORACLE_HOME=$ORACLE_HOME INSTALL_TYPE="WebLogic Server" &&     rm /u01/$FMW_JAR /u01/$FMW_PKG /u01/install.file &&     rm -rf /u01/oracle/cfgtoollogs
+ ---> Running in a0f36b283c7e
+/
+Launcher log file is /tmp/OraInstall2022-09-18_08-40-00PM/launcher2022-09-18_08-40-00PM.log.
+Extracting the installer . . . . . . . . . Done
+Checking if CPU speed is above 300 MHz.   Actual 2195.862 MHz    Passed
+Checking swap space: must be greater than 512 MB.   Actual 4095 MB    Passed
+Checking if this platform requires a 64-bit JVM.   Actual 64    Passed (64-bit not required)
+Checking temp space: must be greater than 300 MB.   Actual 39296 MB    Passed
+Preparing to launch the Oracle Universal Installer from /tmp/OraInstall2022-09-18_08-40-00PM
+Log: /tmp/OraInstall2022-09-18_08-40-00PM/install2022-09-18_08-40-00PM.log
+Setting ORACLE_HOME...
+Setting INSTALL_TYPE...
+Copyright (c) 1996, 2020, Oracle and/or its affiliates. All rights reserved.
+Reading response file..
+Skipping Software Updates
+Validations are disabled for this session.
+Verifying data
+Copying Files
+Percent Complete : 10
+Percent Complete : 20
+Percent Complete : 30
+Percent Complete : 40
+Percent Complete : 50
+Percent Complete : 60
+Percent Complete : 70
+Percent Complete : 80
+Percent Complete : 90
+Percent Complete : 100
+
+The installation of Oracle Fusion Middleware 14.1.1 WebLogic Server and Coherence 14.1.1.0.0 completed successfully.
+Logs successfully copied to /u01/oracle/.inventory/logs.
+Removing intermediate container a0f36b283c7e
+ ---> 391900d106c5
+Step 9/19 : FROM oracle/serverjre:8
+ ---> 64c52536e409
+Step 10/19 : ENV ORACLE_HOME=/u01/oracle     USER_MEM_ARGS="-Djava.security.egd=file:/dev/./urandom"     SCRIPT_FILE=/u01/oracle/createAndStartEmptyDomain.sh     HEALTH_SCRIPT_FILE=/u01/oracle/get_healthcheck_url.sh     PATH=$PATH:${JAVA_HOME}/bin:/u01/oracle/oracle_common/common/bin:/u01/oracle/wlserver/common/bin
+ ---> Running in be2173462af8
+Removing intermediate container be2173462af8
+ ---> 9cbfd531ecd1
+Step 11/19 : ENV DOMAIN_NAME="${DOMAIN_NAME:-base_domain}"     ADMIN_LISTEN_PORT="${ADMIN_LISTEN_PORT:-7001}"     ADMIN_NAME="${ADMIN_NAME:-AdminServer}"     ADMINISTRATION_PORT_ENABLED="${ADMINISTRATION_PORT_ENABLED:-true}"     ADMINISTRATION_PORT="${ADMINISTRATION_PORT:-9002}"
+ ---> Running in 981c75a46d4b
+Removing intermediate container 981c75a46d4b
+ ---> f3c531476c5b
+Step 12/19 : RUN mkdir -p /u01 &&     chmod 775 /u01 &&     useradd -b /u01 -d /u01/oracle -m -s /bin/bash oracle &&     chown oracle:root /u01
+ ---> Running in 3080c17f24e9
+Removing intermediate container 3080c17f24e9
+ ---> 213f50467fa0
+Step 13/19 : COPY --from=builder --chown=oracle:root /u01 /u01
+ ---> cff5d0b29085
+Step 14/19 : COPY container-scripts/createAndStartEmptyDomain.sh container-scripts/create-wls-domain.py container-scripts/get_healthcheck_url.sh /u01/oracle/
+ ---> cb50225899bc
+Step 15/19 : RUN chmod +xr $SCRIPT_FILE $HEALTH_SCRIPT_FILE &&     chown oracle:root $SCRIPT_FILE /u01/oracle/create-wls-domain.py $HEALTH_SCRIPT_FILE
+ ---> Running in c9fd8c0fdd27
+Removing intermediate container c9fd8c0fdd27
+ ---> 34c1a876f992
+Step 16/19 : USER oracle
+ ---> Running in 18d709e615d9
+Removing intermediate container 18d709e615d9
+ ---> eb78f9da380b
+Step 17/19 : HEALTHCHECK --start-period=10s --timeout=30s --retries=3 CMD curl -k -s --fail `$HEALTH_SCRIPT_FILE` || exit 1
+ ---> Running in 9170a6b9f8ed
+Removing intermediate container 9170a6b9f8ed
+ ---> bc9e2b26769c
+Step 18/19 : WORKDIR ${ORACLE_HOME}
+ ---> Running in fb9086f62b57
+Removing intermediate container fb9086f62b57
+ ---> f057b5575f33
+Step 19/19 : CMD ["/u01/oracle/createAndStartEmptyDomain.sh"]
+ ---> Running in c7e1bf3664f3
+Removing intermediate container c7e1bf3664f3
+ ---> 36e39b73392f
+Successfully built 36e39b73392f
+Successfully tagged oracle/weblogic:14.1.1.0-generic-8
+
+  WebLogic Docker Image for 'generic-8' version 14.1.1.0 is ready to be extended:
+
+    --> oracle/weblogic:14.1.1.0-generic-8
+
+  Build completed in 333 seconds.
+
+[root@localhost dockerfiles]#
+
+
+
+
+
+
+[root@localhost dockerfiles]# docker images
+REPOSITORY         TAG                  IMAGE ID       CREATED              SIZE
+oracle/weblogic    14.1.1.0-generic-8   36e39b73392f   About a minute ago   1.14GB
+<none>             <none>               391900d106c5   2 minutes ago        1.77GB
+oracle/serverjre   8                    64c52536e409   11 minutes ago       316MB
+oracle/serverjre   8-oraclelinux7       64c52536e409   11 minutes ago       316MB
+<none>             <none>               423f89305ab1   12 minutes ago       352MB
+oraclelinux        7-slim               6a34bf539669   3 weeks ago          133MB
+[root@localhost dockerfiles]#
+[root@localhost dockerfiles]# pwd
+/DOCKER/docker-images/OracleWebLogic/dockerfiles
+
+
+[root@localhost DOCKER]# cd -
+/DOCKER/docker-images
+
+
+[root@localhost DOCKER]# vi domain.properties
+[root@localhost DOCKER]# cat domain.properties
+username=weblogic
+password=admin@123
+
+
+[root@localhost DOCKER]# docker run -itd --name WEBLOGIC14C -p 7001:7001 -p 9002:9002 -p 7002:7002 -p 7003:7003 -v $PWD:/u01/oracle/properties oracle/weblogic:14.1.1.0-generic-8
+59366ab7ec3811027ec2055c1aa76385582599f47ca4cbef7191a87f5744b8ca
+[root@localhost DOCKER]# docker ps
+CONTAINER ID   IMAGE                                COMMAND                  CREATED         STATUS                            PORTS                                                                                                      NAMES
+59366ab7ec38   oracle/weblogic:14.1.1.0-generic-8   "/u01/oracle/createA…"   6 seconds ago   Up 5 seconds (health: starting)   0.0.0.0:7001-7003->7001-7003/tcp, :::7001-7003->7001-7003/tcp, 0.0.0.0:9002->9002/tcp, :::9002->9002/tcp   WEBLOGIC14C
+
+
+
+
+
+
+# docker run -d --name wls12c -p 7001:7001 -p 9002:9002 -p 7005:7005 -p 7006:7006 -v $PWD:/u01/oracle/properties container-registry.oracle.com/middleware/weblogic
+
+
+[root@localhost DOCKER]#docker logs WEBLOGIC14C
+
+
+ docker exec -it 59366ab7ec38  /bin/bash
+ docker ps
+#docker exec -it --user root 59366ab7ec38  /bin/bash

@@ -1,0 +1,757 @@
+VMware or HyperV --
+Linux VM (Centos 7.9) -> Docker installation-> Docker basic commanda ( Containers, images, exec, logs..etc )
+https://docs.docker.com/engine/install/centos/http://repo.extreme-ix.org/centos/7.9.2009/isos/x86_64/CentOS-7-x86_64-DVD-2207-02.iso
+https://www.edureka.co/blog/docker-commands/
+Install Docker Engine on CentOS
+Instructions for installing Docker Engine on CentOS
+Cent OS:    http://mirrors.nxtgen.com/centos-mirror/7.9.2009/isos/x86_64/CentOS-7-x86_64-DVD-2207-02.iso
+Notes link :  https://docs.docker.com/compose/install/compose-plugin/#installing-compose-on-linux-systems
+
+
+
+
+yum update all
+Docker prerequsists download:
+sudo yum install -y yum-utils
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+
+
+
+BASIC COMMAND:
+docker --version
+docker -help
+ps -ef | grep docker
+service docker start
+service docker stop
+docker run hello-world  -----------This message shows that your installation appears to be working correctly.
+docker login   ------to login docker hub login
+sridharad1
+dS61dh@6@
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+without login can we pull the image ?
+
+how to log out ?
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+docker pull tomcat
+docker images
+docker run tomcat
+docker run -d -p 8085:8080 tomcat  -----backend
+docker ps
+docker ps -a
+docker exec -it 9e76a22d9795 /bin/bash   ----go to inside the container where the tomcat installed
+
+INSTALLING VI COMMAND ON DOCKER CONTAINER:
+apt-get update
+apt-get install vim
+docker run -p 8080:80 httpd
+docker run -d -p 8080:80 httpd  (back end running)
+docker run -p 8081:80 httpd
+docker run -p 8082:80 --name DEVUAT httpd  -------container running with differnet name but image same.
+
+
+
+docker stop containername/id
+kill -9 containername/id
+docker restart containername/id
+docker rm containername/id
+
+docker run -it httpd cat /etc/os-release   -------httpd image inside os version will show
+docker inspect 391bdb77733d   -------to check inside the container details
+******************************************************************************************************************************************************************
+docker rmi -f f2a976f932ec
+docker logs 9e76a22d9795
+
+docker cp test1/ 9e76a22d9795:/usr/local/tomcat------from the docker
+docker exec -it 9e76a22d9795 /bin/bash
+
+docker cp 9e76a22d9795:/usr/local/tomcat/NOTICE /   ----fom base machine
+docker run -itd --name TomcatCD -v /root/CD:/usr/CD -p 8086:8080 tomcat
+
+
+
+run – start a containe
+ps – list containers
+STOP – stop a container
+Rm – Remove a container
+images – List images
+rmi – Remove images
+Pull – download an images
+Append a command-
+ocker run ubuntu sleep 5
+Exec – execute a command
+Run – attach and detach
+docker run kodekloud/simple-webapp
+docker run –d kodekloud/simple-webapp
+docker attach a043d
+Run – tag
+RUN - STDIN
+docker run –it kodekloud/simple-prompt-docker
+Run – PORT mapping
+RUN – Volume mapping
+Inspect Container
+Container LogsRun – start a containe
+ps – list containers
+STOP – stop a container
+Rm – Remove a container
+images – List images
+rmi – Remove images
+Pull – download an images
+Append a command-
+ocker run ubuntu sleep 5
+Exec – execute a command
+Run – attach and detach
+docker run kodekloud/simple-webapp
+docker run –d kodekloud/simple-webapp
+docker attach a043d
+Run – tag
+RUN - STDIN
+docker run –it kodekloud/simple-prompt-docker
+Run – PORT mapping
+RUN – Volume mapping
+Inspect Container
+Container Logs
++++++++++++++++++++++++++++++++++++
+
+
+
+docker pull centos
+docker images
+docker run -it -d --name UATOS centos
+docker ps
+docker images rmi centos
+docker images rmi -f centos
+docker exec -it imageid /bin/bash
+docker exec -it -d --name centos
+_____________________________________________________________
+
+docker run -d --name db_redis redis   -----------db pull and install
+docker run -d --name voting_app --link db_redis -p 5000:80 eesprit/voting-app-vote  -----web application pull and install.
+docker pull postgres
+docker run -d --name postgres_db -e POSTGRES_HOST_AUTH_METHOD=trust postgres
+docker pull eesprit/voting-app-worker
+docker pull eesprit/voting-app-result
+docker run -d --name worker_vote --link db_redis:redis --link db:db eesprit/voting-app-worker
+docker run -d --name result --link db:db -p 5001:80 eesprit/voting-app-result
+_______________________________________________________________
+
+
+
+[root@localhost CentOS-ssh]# cat Dockerfile
+FROM centos
+RUN cd /etc/yum.repos.d/
+RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-Linux-*
+RUN sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.epel.cloud|g' /etc/yum.repos.d/CentOS-Linux-*
+RUN yum -y update
+RUN yum install -y openssh-server
+RUN echo root:passwd123| chpasswd
+RUN ssh-keygen -A
+EXPOSE 22
+CMD /usr/sbin/sshd -D
+[root@localhost CentOS-ssh]# cat Dockerfile
+FROM centos
+RUN cd /etc/yum.repos.d/
+RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-Linux-*
+RUN sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.epel.cloud|g' /etc/yum.repos.d/CentOS-Linux-*
+RUN yum -y update
+RUN yum install -y openssh-server
+RUN echo root:passwd123| chpasswd
+RUN ssh-keygen -A
+EXPOSE 22
+CMD /usr/sbin/sshd -D
+
+
+
+#################################################################################################################################################
+954  mkdir shared-Drive
+  955  cd shared-Drive/
+  956  ls -ltr
+  957  pwd
+  958  docker run -d -p 8080:80 -v /data/shared-Drive:/usr/local/apache2 httpd
+  959  docker ps
+  960  docker logs cfe538bb1d6711410b6000b0f3d72abce4f2bc086dcf0ab296a08a4fbbc79408
+  961  docker run -d -p 8080:80 -v /data/shared-Drive:/usr/local/apache2/htdocs httpd
+  962  docker ps
+  963  docker exec -it 55e361830e04 bash
+  964  cd /var/lib/docker/containers/55e361830e04074a4ba2d8a325795dc084a1f7dab49e33c9f4371c5710932502
+  965  ls -ltr
+  966  cat host
+  967  ls -ltr
+  968  cat hosts
+  969  ls -ltr
+  970  pwd
+  971  cd ..
+  972  ls -ltr
+  973  cd 55e361830e04074a4ba2d8a325795dc084a1f7dab49e33c9f4371c5710932502
+  974  ls -ltr
+  975  less config.v2.json
+  976  ll
+  977  pwd
+  978  cd ..
+  979  ll
+  980  cd ..
+  981  ls -ltr
+  982  pwd
+  983  cd volumes/
+  984  ls -ltr
+  985  cd..
+  986  ls -ltr
+  987  docker ps
+  988  docker inspect 55e361830e04
+  989  docker ps
+  990  docker logs 55e361830e04
+  991  docker ps
+  992  docker inspect 55e361830e04
+  993  cd /var/lib/docker/containers/55e361830e04074a4ba2d8a325795dc084a1f7dab49e33c9f4371c5710932502
+  994  ls -ltr
+  995  date
+  996  ls -ltr
+  997  less 55e361830e04074a4ba2d8a325795dc084a1f7dab49e33c9f4371c5710932502-json.log
+  998  vi
+  999  ls -ltr
+ 1000  vi 55e361830e04074a4ba2d8a325795dc084a1f7dab49e33c9f4371c5710932502-json.log
+ 1001  docker images
+ 1002  ls -ltr
+ 1003  docker ps
+ 1004  docker stop 2931fe0f2fb1
+ 1005  docker images
+ 1006  docker rmi centos
+ 1007  docker rmi -f centos
+ 1008  docker images
+ 1009  cd /data/
+ 1010  ls -ltr
+ 1011  cd CentOS-ssh/
+ 1012  ls -ltr
+ 1013  cat Dockerfile
+ 1014  ifconfig
+ 1015  ls -ltr
+ 1016  cat Dockerfile
+ 1017  docker images
+ 1018  docker --help
+ 1019  history
+
+
+
+
+
+
+
+
+############ Network#####################################################################################################################3
+docker infohttps://linuxcent.com/docker-networking-basics-and-the-types-of-networks/
+
+docker network create --driver bridge isolated
+
+docker network create --driver=bridge --subnet=192.168.2.0/24 --gateway=192.168.2.10 new_subnet
+
+docker run --network=isolated -itd --name=docker-nginx nginx
+
+docker network create -d bridge my-bridge-network
+Docker Networking basics and the types of networks - Linux Cent
+The docker networking comprises of a overlay network and enabled communication with the outside resources using it. There are following main types of built in connectivity networking drivers namely...
+
+
+###################Registry#######################################################################
+docker run -d -p 5000:5000 --restart=always --name registry registry:2
+
+http://172.30.203.87:5000/v2/_catalog
+
+docker image tag centos localhost:5000/my-centos3
+
+docker push localhost:5000/my-centos
+
+curl -X GET http://localhost:5000/v2/_catalog
+----
+docker image tag centos localhost:5000/my-centos-new
+docker push localhost:5000/my-centos-new
+mkdir -p /data/registry
+docker run -d -p 5000:5000 -v /data/registry:/var/lib/registry --restart=always --name registry registry:2
+
+
+
+[8/28 2:10 PM] Dnyaneshwar Atakare
+Cent OS:    http://mirrors.nxtgen.com/centos-mirror/7.9.2009/isos/x86_64/CentOS-7-x86_64-DVD-2207-02.iso
+Notes link :  https://docs.docker.com/compose/install/compose-plugin/#installing-compose-on-linux-systems
+yum update all
+Docker prerequsists download:
+sudo yum install -y yum-utils
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+BASIC COMMAND:
+docker --version
+docker -help
+ps -ef | grep docker
+service docker start
+service docker stop
+docker run hello-world  -----------This message shows that your installation appears to be working correctly.
+docker login   ------to login docker hub login
+sridharad1
+dS61dh@6@
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+without login can we pull the image ?
+how to log out ?
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+docker pull tomcat
+docker images
+docker run tomcat
+docker run -d -p 8085:8080 tomcat  -----backend
+docker ps
+docker ps -a
+docker exec -it 9e76a22d9795 /bin/bash   ----go to inside the container where the tomcat installed
+
+INSTALLING VI COMMAND ON DOCKER CONTAINER:
+apt-get update
+apt-get install vim
+
+
+docker run -p 8080:80 httpd
+docker run -d -p 8080:80 httpd  (back end running)
+docker run -p 8081:80 httpd
+docker run -p 8082:80 --name DEVUAT httpd  -------container running with differnet name but image same.
+docker stop containername/id
+kill -9 containername/id
+docker restart containername/id
+docker rm containername/id
+docker run -it httpd cat /etc/os-release   -------httpd image inside os version will show
+docker inspect 391bdb77733d   -------to check inside the container details
+******************************************************************************************************************************************************************
+docker rmi -f f2a976f932ec
+docker logs 9e76a22d9795
+docker cp test1/ 9e76a22d9795:/usr/local/tomcat------from the docker
+docker exec -it 9e76a22d9795 /bin/bash
+docker cp 9e76a22d9795:/usr/local/tomcat/NOTICE /   ----fom base machine
+docker run -itd --name TomcatCD -v /root/CD:/usr/CD -p 8086:8080 tomcat
+
+###################################################################################################################
+run – start a containe
+ps – list containers
+STOP – stop a container
+Rm – Remove a container
+images – List images
+rmi – Remove images
+Pull – download an images
+Append a command-
+ocker run ubuntu sleep 5
+Exec – execute a command
+Run – attach and detach
+docker run kodekloud/simple-webapp
+docker run –d kodekloud/simple-webapp
+docker attach a043d
+Run – tag
+RUN - STDIN
+docker run –it kodekloud/simple-prompt-docker
+Run – PORT mapping
+RUN – Volume mapping
+Inspect Container
+Container LogsRun – start a containe
+ps – list containers
+STOP – stop a container
+Rm – Remove a container
+images – List images
+rmi – Remove images
+Pull – download an images
+Append a command-
+ocker run ubuntu sleep 5
+Exec – execute a command
+Run – attach and detach
+docker run kodekloud/simple-webapp
+docker run –d kodekloud/simple-webapp
+docker attach a043d
+Run – tag
+RUN - STDIN
+docker run –it kodekloud/simple-prompt-docker
+Run – PORT mapping
+RUN – Volume mapping
+Inspect Container
+Container Logs
+
++++++++++++++++++++++++++++++++++++
+
+docker pull centos
+docker images
+docker run -it -d --name UATOS centos
+docker ps
+docker images rmi centos
+docker images rmi -f centos
+docker exec -it imageid /bin/bash
+docker exec -it -d --name centos
+_____________________________________________________________
+docker run -d --name db_redis redis   -----------db pull and install
+docker run -d --name voting_app --link db_redis -p 5000:80 eesprit/voting-app-vote  -----web application pull and install.
+docker pull postgres
+docker run -d --name postgres_db -e POSTGRES_HOST_AUTH_METHOD=trust postgres
+docker pull eesprit/voting-app-worker
+docker pull eesprit/voting-app-result
+docker run -d --name worker_vote --link db_redis:redis --link db:db eesprit/voting-app-worker
+docker run -d --name result --link db:db -p 5001:80 eesprit/voting-app-result
+
+
+##############Docker Swarm Setuphttps://docs.docker.com/engine/swarm/swarm-tutorial/create-swarm/https://docs.docker.com/engine/swarm/swarm-tutorial/add-nodes/https://docs.docker.com/engine/swarm/swarm-tutorial/deploy-service/
+
+====Master Side
+# docker swarm init
+# docker swarm init --advertise-addr 172.30.203.87
+# docker node ls
+
+docker swarm join-token manager --- for manager join
+docker swarm join-token worker -- for node join
+docker node promote node - to add and change from node to manager
+two type of services - replica vs global
+docker swarm COMMAND
+docker service --help
+
+docker service create httpd
+docker service ls
+docker service ps id
+
+# docker service create --replicas=2 -p 8081:80 httpd
+# docker service update --replicas=4 name
+# docker service update --help
+# docker service update "sid" --publish-add 5000:80
+# docker service rm "sid"
+# docker service create --replicas=2 --name apache httpd
+# docker service ps apache
+# docker service scale httpd=50
+# docker node update --availability drain docker-master - this will remove docker master from cluster but you can use all commands
+#
+docker swarm leave
+
+
+-----------------------------------------------------------------
+
+==Worker side
+# docker swarm join --token SWMTKN-1-5fg46dzgf7620ho74wtds6trciavur08medzla5tmaxdpidn84-6rhhotn1ojxz4vosmd8nvmmv7 172.30.203.87:2377
+# docker swarm leave
+
+
+#############################
+[root@master ~]# docker swarm leave --force
+Node left the swarm.
+
+
+
+#####
+hostnamectl set-hostname master
+546508
+546508
+Create a swarm
+Initialize the swarm
+
+############ Network
+docker infohttps://linuxcent.com/docker-networking-basics-and-the-types-of-networks/
+
+docker network create --driver bridge isolated
+
+docker network create --driver=bridge --subnet=192.168.2.0/24 --gateway=192.168.2.10 new_subnet
+
+docker run --network=isolated -itd --name=docker-nginx nginx
+
+docker network create -d bridge my-bridge-networkhttps://www.orbit-computer-solutions.com/subnetting-ip-addresses/#:~:text=In%20order%20to%20subnet%20a%20network%20address%2C%20The,create%20subnets%20in%20this%20manner%3A%20192.17.5.0%20%E2%80%93%2011000000.00010001.00000101.00000000
+###########################################################
+
+
+https://automationstepbystep.com/
+
+https://www.freecodecamp.org/news/how-to-remove-all-docker-images-a-docker-cleanup-guide/#:~:text=To%20clean%20up%20as%20much%20as%20possible%20excluding,prune%20-a%20-a%20includes%20unused%20and%20dangling%20containers.
+
+
+docker run -d -p 5000:5000 --restart=always --name registry registry:2
+
+http://172.30.203.87:5000/v2/_catalog
+
+docker image tag centos localhost:5000/my-centos3
+
+docker push localhost:5000/my-centos
+
+curl -X GET http://localhost:5000/v2/_catalog
+----
+docker image tag centos localhost:5000/my-centos-new
+docker push localhost:5000/my-centos-new
+/var/lib/docker/volumes/dd54ebb55f722a2f03f73216088963c396e25398bac60becfa5213f22e289012/_data/docker/registry/v2/repositories
+
+mkdir -p /data/registry
+
+
+docker run -d -p 5000:5000 -v /data/registry:/var/lib/registry --restart=always --name registry registry:2
+
+https://dev.to/docker/creating-a-private-local-docker-registry-in-5-minutes-2dnl
+######################Volume
+/var/lib/docker/volumes/myvolume:/usr/local/apache2
+
+
+
+
+
+###########################SSLhttps://dev.to/docker/creating-a-private-local-docker-registry-in-5-minutes-2dnl
+mkdir -p /srv/registry/data
+$ mkdir -p /srv/registry/security
+apk add apache2-utils
+
+docker run -d   -p 443:5000   --name registry   -v /srv/registry/data:/var/lib/registry   -v /srv/registry/security:/etc/security   -e REGISTRY_HTTP_TLS_CERTIFICATE=/etc/security/registry.crt   -e REGISTRY_HTTP_TLS_KEY=/etc/security/registry.key   -e REGISTRY_AUTH=htpasswd   -e REGISTRY_AUTH_HTPASSWD_PATH=/etc/security/htpasswd   -e REGISTRY_AUTH_HTPASSWD_REALM="Registry Realm"   --restart always   registry:2
+
+
+Private registry: -
+version: "3"
+services:  registry:      image: registry:2      ports:        - 5000:5000      environment:        - REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /data      restart: unless-stopped      volumes:        - ./data:/data        
+=================================================
+
+
+
+
+docker login servername
+
+
+######################
+The registry:2 image doesn't have a Web UI - it's not a local version of Docker Hub, it just has the core registry functionality and the REST API.
+
+You can query the API directly:
+
+> curl http://localhost:5000/v2/_catalog{​​"repositories":[]}​​  
+If you want a Web UI like the Hub, try Docker Trusted Registry.
+
+
+##############Docker Swarm Setup
+
+Master Side--
+
+docker swarm init --advertise-addr 172.30.203.87
+
+docker info
+Swarm: active  NodeID: l4vqsvrqlc6huiwebym9y9kji  Is Manager: true  ClusterID: ksnae13c082rrgjfkfluza3gk  Managers: 1  Nodes: 1  Default Address Pool: 10.0.0.0/8  SubnetSize: 24  Data Path Port: 4789  Orchestration:   Task History Retention Limit: 5  Raft:   Snapshot Interval: 10000   Number of Old Snapshots to Retain: 0   Heartbeat Tick: 1   Election Tick: 10  Dispatcher:   Heartbeat Period: 5 seconds  CA Configuration:   Expiry Duration: 3 months   Force Rotate: 0  Autolock Managers: false  Root Rotation In Progress: false  Node Address: 172.30.203.87  Manager Addresses:   172.30.203.87:2377
+[root@localhost ~]# docker node lsID                            HOSTNAME                STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSIONl4vqsvrqlc6huiwebym9y9kji *   localhost.localdomain   Ready     Active         Leader           20.10.17https://docs.docker.com/engine/swarm/swarm-tutorial/create-swarm/https://docs.docker.com/engine/swarm/swarm-tutorial/add-nodes/https://docs.docker.com/engine/swarm/swarm-tutorial/deploy-service/
+
+[root@localhost ~]# docker swarm join-token worker
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-5fg46dzgf7620ho74wtds6trciavur08medzla5tmaxdpidn84-6rhhotn1ojxz4vosmd8nvmmv7 172.30.203.87:2377
+
+
+on Worker side--
+[root@localhost ~]# docker swarm join --token SWMTKN-1-5fg46dzgf7620ho74wtds6trciavur08medzla5tmaxdpidn84-6rhhotn1ojxz4vosmd8nvmmv7 172.30.203.87:2377
+This node joined a swarm as a worker.
+[root@localhost ~]#
+
+[root@localhost ~]# docker service create --replicas=2 -p 8081:80 httpd
+lwf0hhbfoccwivaqyi6l9fm7t
+overall progress: 2 out of 2 tasks1/2: running   [==================================================>]2/2: running   [==================================================>]
+verify: Service converged
+
+docker swarm COMMAND
+docker service --help
+
+############## how to remove docekr swarm
+docker help swarm
+node side -
+[root@localhost ~]# docker swarm leave
+Node left the swarm.
+[root@localhost ~]# ip r
+default via 172.30.192.1 dev eth0 proto dhcp metric 100
+172.17.0.0/16 dev docker0 proto kernel scope link src 172.17.0.1
+172.18.0.0/16 dev docker_gwbridge proto kernel scope link src 172.18.0.1
+172.30.192.0/20 dev eth0 proto kernel scope link src 172.30.205.208 metric 100
+[root@localhost ~]#
+
+
+Master side -
+root@localhost ~]# docker swarm leave --force
+Node left the swarm.
+[root@localhost ~]#
+Docker Networking basics and the types of networks - Linux Cent
+The docker networking comprises of a overlay network and enabled communication with the outside resources using it. There are following main types of built in connectivity networking drivers namely...
+
+[9/10 1:39 PM] Sourav Sinha
+Q.How to Install Docker on Linux (CentOS 7)
+==>sudo yum install -y yum-utils
+==>yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+==>yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+
+
+
+
+
+############ In first class of registry ###############
+docker run -d -p 5000:5000 --restart=always --name registry registry:2
+http://172.30.203.87:5000/v2/_catalog
+docker image tag httpd localhost:5000/my-httpd
+docker push localhost:5000/my-httpd
+curl -X GET http://localhost:5000/v2/_catalog
+docker image tag centos localhost:5000/my-centos-new
+docker push localhost:5000/my-centos-new
+mkdir -p /data/registry
+docker run -d -p 5000:5000 -v /data/registry:/var/lib/registry --restart=always --name registry registry:2
+===============================================================================================================
+############### Server Side ########
+
+https://hub.docker.com/_/registry/tags -- Docker image url
+docker run -d --name=docker-registry -p 5000:5000 --restart=always -v /data/own-registry:/var/lib/registry registry:2 --Command to run on docker
+http://server.local.com:5000/v2/_catalog -- url to access in browser
+
+
+
+https://hub.docker.com/r/konradkleine/docker-registry-frontend
+docker run -d -e ENV_DOCKER_REGISTRY_HOST=server.local.com -e ENV_DOCKER_REGISTRY_PORT=5000 -p 80:80 --name=docker-registry-ui konradkleine/docker-registry-frontend:v2
+http://server.local.com/home
+
+############# Client Side ##########
+1. Update /etc/hosts file with server ip and hostname
+192.168.81.101 server.local.com
+
+2. Create one dameon.json file under /etc/docker
+#cat /etc/docker/daemon.json
+{
+  "insecure-registries": ["server.local.com:5000"]
+}
+
+3. Tag the image
+docker image tag httpd server.local.com:5000/server/my-httpd
+docker image tag httpd server.local.com:5000/my-httpd-new
+docker image tag httpd server.local.com:5000/server/my-httpd1
+
+
+
+4. Updalod the image
+docker push server.local.com:5000/server/my-httpd
+docker push server.local.com:5000/my-httpd-new
+docker push server.local.com:5000/server/my-httpd1
+===============================================================================
+#########Registry with docker compose ##########
+[root@server registry]# cat /data/registry/registry.yml
+---
+version: '3'
+
+
+
+services:
+   docker-registry:
+       image: registry:2
+       container_name: docker-registry
+       ports:
+          - 5000:5000
+       restart: always
+       volumes:
+          - /data/own-registry:/var/lib/registry
+
+
+
+  docker-registry-ui:
+       image: konradkleine/docker-registry-frontend:v2
+       container_name: docker-registry-ui
+       ports:
+          - 80:80
+       environment:
+          ENV_DOCKER_REGISTRY_HOST: docker-registry
+          ENV_DOCKER_REGISTRY_PORT: 5000
+          
+# docker compose up -d
+
+######### WEblogic with Docker
+1. login to oracle registry
+https://container-registry.oracle.com/ords/f?p=113:10:118584138693
+# docker login container-registry.oracle.com
+
+
+
+2. Download the weblogic image
+docker pull container-registry.oracle.com/middleware/weblogic:12.2.1.4-220808
+
+
+
+
+3. Start the weblogic container ( Give expose ports for managed server also)
+
+
+
+# docker run -d --name wls12c -p 7001:7001 -p 9002:9002 -p 7005:7005 -p 7006:7006 -v $PWD:/u01/oracle/properties container-registry.oracle.com/middleware/weblogic
+
+# docker run -itd --name WEBLOGIC14C -p 7001:7001 -p 9002:9002 -p 7002:7002 -p 7003:7003 -v $PWD:/u01/oracle/properties oracle/weblogic:14.1.1.0-generic-8
+
+/data/prop
+
+
+
+https://server.local.com:9002/console
+
+
+
+4. Login as root user for weblogic container
+docker exec -it --user root 2fde2a37465f /bin/bash
+
+
+
+5. Make all changes like node manager services etc..
+
+
+
+
+
+
+
+
+
+
+
+[9/17 8:36 PM] Sourav Sinha
+https://github.com/oracle/docker-images/tree/main/OracleHTTPServer
+
+https://github.com/oracle/docker-images/tree/main/OracleWebLogic
+
+[root@server OHS-12c]# git clone https://github.com/oracle/docker-images
+Cloning into 'docker-images'...
+remote: Enumerating objects: 15968, done.
+remote: Counting objects: 100% (190/190), done.
+remote: Compressing objects: 100% (150/150), done.
+remote: Total 15968 (delta 71), reused 132 (delta 40), pack-reused 15778
+Receiving objects: 100% (15968/15968), 10.49 MiB | 5.10 MiB/s, done.
+Resolving deltas: 100% (9385/9385), done.
+
+
+# /data/OHS-12c/docker-images/OracleJava/8
+# cp server-jre-8u341-linux-x64.tar.gz /data/OHS-12c/docker-images/OracleJava/8
+
+# mv fmw_12.2.1.3.0_ohs_linux64_Disk1_1of1.zip /data/OHS-12c/docker-images/OracleHTTPServer/dockerfiles/12.2.1.3.0
+
+
+docker run -v `/data/OHS-12c`:/u01/oracle/bootdir -it --name ohs -p 7777:7777 oracle/ohs:12.2.1.3.0
+
+ $ docker run -v `HOST PATH where the domain.properties file is`:/u01/oracle/bootdir -v /scratch/DockerVolume/OHSVolume:/config -w /config -d --name ohs -p 7777:7777  oracle/ohs:12.2.1.3.0LoadModule weblogic_module   "${​​PRODUCT_HOME}​​/modules/mod_wl_ohs.so"
+
+# This empty block is needed to save mod_wl related configuration from EM to this file when changes are made at the Base Virtual Host Level
+<IfModule weblogic_module>       WebLogicHost 172.17.0.3       WebLogicPort 7005       MatchExpression *.jsp
+</IfModule>
+
+  <Location /benefits>       SetHandler weblogic-handler#       PathTrim /weblogic#       ErrorPage  http:/WEBLOGIC_HOME:WEBLOGIC_PORT/   </Location>
+
+
+###############################
+
+/u01/oracle/ohssa/user_projects/domains/ohsDomain/config/fmwconfig/components/OHS/instances/ohs1/httpd.conf
+
+/u01/oracle/ohssa/ohs/modules/mod_wl_ohs.so
+
+LoadModule weblogic_module   "/u01/oracle/ohssa/ohs/modules/mod_wl_ohs.so"
+
+<IfModule weblogic_module>
+<Location /benefits>
+WLSRequest On
+WebLogicCluster 172.17.0.3:7005,172.17.0.3:7006
+</Location>
+</IfModule>
+
+/data/OHS-12c/scripts
+
+docker run -v /data/OHS-12c:/u01/oracle/bootdir -v $PWD:/config -w /config  -it --name ohs -p 7777:7777 oracle/ohs:12.2.1.3.0
+
+-v /scratch/DockerVolume/OHSVolume:/config -w /config -d --name ohs -p 7777:7777  oracle/ohs:12.2.1.3.0
+/u01/oracle/ohssa/user_projects/domains/ohsDomain/config
+docker run -d -p 7001:7001 --env-file ./container-scripts/domain.properties -e ADMIN_PASSWORD=<admin_password> -v <host directory>:/u01/oracle/user_projects 12213-domain
+
+docker run -d --name wls12c -p 7001:7001 -p 9002:9002  -v $PWD:/u01/oracle/properties oracle/weblogic:14.1.1.0-generic-8
+myweblogicuser
+docker-images/OracleHTTPServer at main · oracle/docker-images
+Official source for Docker configurations, images, and examples of Dockerfiles for Oracle products and projects - docker-images/OracleHTTPServer at main · oracle/docker-images
+
+
+

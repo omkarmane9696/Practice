@@ -1,0 +1,116 @@
+que->What is docker?
+-Docker is an open-source Centralised Platform designed to Create, deploy and run applications.
+-Docker uses Container on the host OS to run applications It allows applications to use the Same linux Kernel as a System on the host  Computer/ rather than Creating a Whole Virtual O.S
+- We Can install docker on any Os but Docker engine runs natively on Linux distribution.
+-Docker written in 'go' language.
+-Docker is a tool that performs OS Level Virtualization , also known as Containerization.
+-Before Docker, many users faces the problem that a particular Code is running in
+the developer's system but not in the User's System
+-Docker was first Release in March 2013 It is developed by Solomon Hykes and Sebastian Pahl 
+- Docker is a Set of Platform as a Service that uses OS Level Virtualization whereas VMware uses Hardware level Virtualisation.
+##########################################################################################
+que->Advantages of Docker
+-No pre-allocation of RAM
+-CI Efficiency → Docker enables you to build a Container image and use that Same image across every step of the deployment process.
+- Less Cost
+- It is light in Weight
+- It Can run on physical H/w/Virtual H/w or on cloud.
+- You Can re-use the image
+- It took Very less time to Crente Container
+##########################################################################################
+que -> Disadvantages of Docker
+- Docker is not a good solution for application that requires rich GUI.
+- Difficult to manage large amount of Containers.
+- Docker does not provide Cross-platform Compatibility means if an application is designed to run in a docker Container on Windows, then it Can't run on linux or vice-versa.
+-Docker is suitable when the development O.S and testing OS are Same, if the OS is different,we should use VM.
+- No solution for Data Recovery & Васкup.
+##########################################################################################
+que-->components of dockers
+
+1)Docker Daeman-
+- Docker daemon runs on the Host O.S.
+- It is responsible for running Containers to, manages docker Services
+- Docker Daemon Can Communicate with Other caemons.
+
+
+2) Docker Client
+- Docker users Can interact with docker daemon through a Client (CLI)
+- Docker Client uses Commands and Rest API to Communicate with the docker daemon,
+- when a Client runs any Server Command on the docker Client terminal, the Client terminal Sends these docker Commands to the docker daemon.
+-  It is possible for docker Client to Communicate with more than one daemon.
+
+3) Docker Host
+- Docker Host is used to provide environment to execute and run applications. It Contains the docker daemon, images, Containers,
+networks and storages.
+
+4) Docker Hub/Registry
+
+Docker registry manages and stores the docker images 
+There are two types of registries in the docker
+  i) Public Registry -> Public registry is also Called as docker hub.
+  ii) Private Registry -> It is used to share images within the enterprise.
+
+5) Docker images
+- Docker images are the read only binary templates used to Create docker Containers.
+or Single file with all dependencies and Configuration required to run a program
+
+6)Docker Container
+- Container hold the entire packages that is needed to run the application.
+          OR
+-In other words, we can say that, the image is a template and the Container is a Copy of that template.
+
+- Container is like a Virtual Machine.
+- Images becomes Container when they run on docker engine.
+####################################################################################################
+ways to Create an Images
+i)Take image from docker hub
+ii)Create image from docker file
+iii) Create image from existing docker Containers.
+####################################################################################################
+
+
+COMMANDS FOR DIOCKERS
+
+--> To see docker infromation
+#docker info
+
+-->To Check, Service is start or not.
+#Service docker status
+#Service docker start
+
+-->To see all images present in your local machine
+# docker images
+
+-->To find out images in docker hub
+# docker search ubuntu
+
+--> To see the docker os version
+#cat /etc/os-release
+
+-->To download image from dockerhub to local machine
+# docker pull ubuntu
+
+-->To give name to Container
+#docker run -it --name omkar_container ubuntu /bin/bash
+
+      run -- recreate or start
+     'i' stands for interactive mode and 't' stands for terminal
+
+-->To start Container
+#docker start container_name
+
+-->To go inside container
+#docker attach container_name
+
+-->Το see all Containers ( a stands for all)
+#docker ps -a
+
+-->To See only running Containers  ( ps stands for process status)
+#docker ps
+
+-->To Stop Container
+#docker stop container_name
+
+-->To delete Container
+#docker rm container_name
+

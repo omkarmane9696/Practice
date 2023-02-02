@@ -1,0 +1,112 @@
+*****************************************DOCKER WEBLOGIC USING PULL COMMAND********************************************************
+
+Step 1) We need to install docker on centos 
+
+#sudo yum install -y yum-utils
+
+#yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+#yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+#docker version
+
+#service docker start
+
+#chkconfig docker on
+
+#ps -ef | grep docker
+
+************************************************************************************************************************************
+Step 2) We need to login using paid id on oracle container registery
+
+[root@localhost ~]# docker login container-registry.oracle.com
+Username: btoappsupport@icicibank.com
+Password:
+WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+
+************************************************************************************************************************************
+Step 3) download oracle weblogic image by using pull command  from oracle container registry
+
+[root@localhost ~]# docker pull container-registry.oracle.com/middleware/weblogic:14.1.1.0-8-ol8-220808
+14.1.1.0-8-ol8-220808: Pulling from middleware/weblogic
+32c1bf40aba1: Pull complete
+a686d2976328: Pull complete
+11b9e58d70a4: Pull complete
+ddb162e4b7e9: Pull complete
+d3a4afc5edc3: Pull complete
+dbfbfb3c78da: Pull complete
+Digest: sha256:b99ec42427912462f0c339bc828bac3d84928e9d29c5ccdd23492f09149f5e41
+Status: Downloaded newer image for container-registry.oracle.com/middleware/weblogic:14.1.1.0-8-ol8-220808
+container-registry.oracle.com/middleware/weblogic:14.1.1.0-8-ol8-220808
+
+ Note: for see the output use below command
+
+[root@localhost ~]# docker images
+REPOSITORY                                          TAG                     IMAGE ID       CREATED        SIZE
+oracle/weblogic                                     14.1.1.0-generic-8      36e39b73392f   35 hours ago   1.14GB
+<none>                                              <none>                  391900d106c5   35 hours ago   1.77GB
+oracle/serverjre                                    8                       64c52536e409   35 hours ago   316MB
+oracle/serverjre                                    8-oraclelinux7          64c52536e409   35 hours ago   316MB
+<none>                                              <none>                  423f89305ab1   35 hours ago   352MB
+oraclelinux                                         7-slim                  6a34bf539669   3 weeks ago    133MB
+container-registry.oracle.com/middleware/weblogic   14.1.1.0-8-ol8-220808   fcc7dbac13cc   6 weeks ago    1.28GB
+
+************************************************************************************************************************************
+
+Step 4) for start weblogic server use below command
+
+[root@localhost DOCKER]# docker run -d --name wls14c -p 7001:7001 -p 9002:9002 -p 7005:7005 -p 7006:7006 -v $PWD:/u01/oracle/properties container-registry.oracle.com/middleware/weblogic:14.1.1.0-8-ol8-220808
+e0470605d29cb576e415558477ffc47c0804d3ec096dc5117e8277c1744f8dc1
+
+Note: for see the output use below command
+
+[root@localhost DOCKER]# docker ps
+CONTAINER ID   IMAGE                                                                     COMMAND                  CREATED              STATUS                                 PORTS                                                                                                                                                 NAMES
+e0470605d29c   container-registry.oracle.com/middleware/weblogic:14.1.1.0-8-ol8-220808   "/u01/oracle/createA…"   About a minute ago   Up About a minute (health: starting)   0.0.0.0:7001->7001/tcp, :::7001->7001/tcp, 0.0.0.0:7005-7006->7005-7006/tcp, :::7005-7006->7005-7006/tcp, 0.0.0.0:9002->9002/tcp, :::9002->9002/tcp   wls14c
+
+************************************************************************************************************************************
+Step 5)  for accing the console url do below steps
+
+[root@localhost DOCKER]# ip r
+default via 172.25.64.1 dev eth0 proto dhcp metric 100
+172.17.0.0/16 dev docker0 proto kernel scope link src 172.17.0.1
+172.25.64.0/20 dev eth0 proto kernel scope link src 172.25.78.56 metric 100
+
+ goto chrome and hit below url
+ 
+https://172.25.78.56:9002/console
+
+************************************************************************************************************************************
+
+Step 6) for goto inside the container use below command
+
+[root@localhost DOCKER]# docker exec -it wls14c /bin/bash
+
+[oracle@e0470605d29c oracle]$ ls -ltr
+total 24
+-rwxr-x---  1 oracle root  370 Aug  8 11:54 get_healthcheck_url.sh
+-rwxr-x---  1 oracle root 2405 Aug  8 11:54 createAndStartEmptyDomain.sh
+-rwxr-x---  1 oracle root 3084 Aug  8 11:54 create-wls-domain.py
+-rw-r-----  1 oracle root   57 Aug  8 11:54 oraInst.loc
+drwxrwx---  6 oracle root   64 Aug  8 12:15 oraInventory
+-rwxr-----  1 oracle root   10 Aug  8 12:15 root.sh
+drwxr-x--- 10 oracle root  114 Aug  8 12:15 oracle_common
+drwxr-x---  5 oracle root   62 Aug  8 12:15 coherence
+drwxr-x---  7 oracle root   81 Aug  8 12:15 wlserver
+drwxr-x--- 11 oracle root  265 Aug  8 12:15 OPatch
+drwxr-x---  8 oracle root  129 Aug  8 12:16 oui
+drwxr-x--- 16 oracle root  248 Aug  8 12:16 inventory
+drwxr-xr-x  3 root   root   52 Sep 18 20:48 properties
+drwxr-x---  3 oracle root   21 Sep 20 07:40 user_projects
+-rw-r-----  1 oracle root  201 Sep 20 07:40 domain-registry.xml
+
+***************************************************************************************************************************************
+Setp 7) login container using root
+
+[root@localhost DOCKER]# docker exec -it --user root wls14c /bin/bash
+
+*******************************************************END*****************************************************************************
