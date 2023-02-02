@@ -1,0 +1,112 @@
+Git Commands
+git config
+git config --global user.name "OMKAR"
+git config --gloabal user.email "omkarmane9696@gmail.com"
+git config --global core.editor vim
+git config user.name
+git config user.email
+ 
+1)git init  -for initialization of git after hitting this command .git folder has been created in working directory
+
+2)git status  -it shows current git status
+
+3)git add      - it is used for upload changes in stage directory
+   git add --add
+   git add .
+   git add *
+   git add first.txt   --it is used for stage single file
+   
+4)git commit -m "mention comments" 
+   it is used for commit changes in git
+
+5)touch .gitignore
+    in this file we can mention files or folder name which is not need to upload or monitor in git versioning control system like log files
+
+6) git logs
+
+
+7)git diff
+     it show diff between working directory and stageing directory
+
+8)git diff --stage 
+    it show diff between stageing directory and last commit
+
+9) rm -rf .git 
+    it is used for remove delete repository
+
+10) git clone URL
+      it is used for clone mention URL in local system
+	  
+11)	git commit -a -m "commit message" 
+			this command is used for avoid stage directory or stage changes
+		untrack file does not go into commit
+			only tack files we can commitdirectly
+					
+12)	git rm -rf filename
+		it used for delete files from git repository
+
+13) git mv old_filename new_filename
+			it is used for rename files in git repository
+			
+14)git rm --cached tracked_filename
+			it used for rm file from git track repository then this is availabe in local directory but no more longer in tracks
+			
+15)git log -p 
+			it show all commits differnece
+			
+16)git log -p -3 
+			it show last 3 commit differnece
+
+17)git log --stat
+      it show short infromation about all git commits
+18)git log --pretty=oneline
+		it show all commit information in one line
+
+19)	git log --pretty=short
+	 it show all commit information in short ( Author and message)
+
+20)	git log --pretty=full
+    it show all commit information in short ( Author and commit and message)
+	
+21) git log --since=2.days
+		it shows all commits from last 2 days
+	git log --since=2.weeks
+	git log --since=2.months
+	git log --since=2.years
+	
+22)git commit --amend
+		it is used for append or modify last commit
+		
+23)git restore --staged filename
+		it is used to unstage file from stage directory
+24)git checkout -- filename
+     it is used to restore this file into last commit state
+		
+25)git checkout -f 
+     if you change n number of files after last commit now if you dont want this chnages then this command
+			is used for restore your all files at last commit stage
+
+
+
+
+
+
+upload local code to github repository
+git remote add origin https://github.com/omkarmane9696/Practice.git
+
+git push -u origin main
+
+steps to add ssh in github
+1) goto github profile settings
+
+2)select SSH and GPG keys option then select new ssh keys
+
+3) goto gitbash and run below command
+
+#ssh-keygen -t rsa -b 4096 -C "omkarmane9696@gmail.com"		
+#eval "$(ssh-agent -s)"
+#ssh-add ~/.ssh/id_rsa
+#tail ~/.ssh/id_rsa.pub	
+
+after hit last command select your output and paste it in github site in ssh keys
+
