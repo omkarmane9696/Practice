@@ -1,0 +1,370 @@
+login as: root
+root@192.168.20.10's password:
+Last login: Fri Feb  3 01:13:12 2023 from 192.168.20.5
+[root@MASTER ~]# ip r
+default via 192.168.1.1 dev ens33 proto dhcp metric 102
+blackhole 10.20.219.64/26 proto bird
+172.17.0.0/16 dev docker0 proto kernel scope link src 172.17.0.1
+192.168.1.0/24 dev ens33 proto kernel scope link src 192.168.1.112 metric 102
+192.168.20.0/24 dev ens36 proto kernel scope link src 192.168.20.10 metric 101
+[root@MASTER ~]# wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat/jenkins.repo
+--2023-02-03 01:20:17--  https://pkg.jenkins.io/redhat/jenkins.repo
+Resolving pkg.jenkins.io (pkg.jenkins.io)... 151.101.154.133, 2a04:4e42:24::645
+Connecting to pkg.jenkins.io (pkg.jenkins.io)|151.101.154.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 71
+Saving to: ‘/etc/yum.repos.d/jenkins.repo’
+
+100%[=================================================================================================================================>]
+
+2023-02-03 01:20:17 (3.16 MB/s) - ‘/etc/yum.repos.d/jenkins.repo’ saved [71/71]
+
+[root@MASTER ~]# rpm --import https://pkg.jenkins.io/redhat/jenkins.io.key
+[root@MASTER ~]# yum install fontconfig java-11-openjdk
+Loaded plugins: fastestmirror, langpacks
+Determining fastest mirrors
+epel/x86_64/metalink
+ * base: centos.excellmedia.net
+ * epel: repo.extreme-ix.org
+ * extras: centos.excellmedia.net
+ * updates: centos.excellmedia.net
+base
+docker-ce-stable
+epel
+extras
+jenkins
+kubernetes
+updates
+(1/7): docker-ce-stable/7/x86_64/primary_db
+(2/7): epel/x86_64/group_gz
+(3/7): jenkins/primary_db
+(4/7): kubernetes/x86_64/primary
+(5/7): epel/x86_64/primary_db
+(6/7): updates/7/x86_64/primary_db
+(7/7): epel/x86_64/updateinfo                                                                                    | 1.0 MB  00:01:10
+kubernetes                                                                                                                      920/920
+Resolving Dependencies
+--> Running transaction check
+---> Package fontconfig.x86_64 0:2.13.0-4.3.el7 will be installed
+--> Processing Dependency: fontpackages-filesystem for package: fontconfig-2.13.0-4.3.el7.x86_64
+--> Processing Dependency: dejavu-sans-fonts for package: fontconfig-2.13.0-4.3.el7.x86_64
+---> Package java-11-openjdk.x86_64 1:11.0.18.0.10-1.el7_9 will be installed
+--> Processing Dependency: java-11-openjdk-headless(x86-64) = 1:11.0.18.0.10-1.el7_9 for package: 1:java-11-openjdk-11.0.18.0.10-1.el7_9.x86_64
+--> Processing Dependency: xorg-x11-fonts-Type1 for package: 1:java-11-openjdk-11.0.18.0.10-1.el7_9.x86_64
+--> Processing Dependency: libjpeg.so.62(LIBJPEG_6.2)(64bit) for package: 1:java-11-openjdk-11.0.18.0.10-1.el7_9.x86_64
+--> Processing Dependency: libjvm.so()(64bit) for package: 1:java-11-openjdk-11.0.18.0.10-1.el7_9.x86_64
+--> Processing Dependency: libjpeg.so.62()(64bit) for package: 1:java-11-openjdk-11.0.18.0.10-1.el7_9.x86_64
+--> Processing Dependency: libjava.so()(64bit) for package: 1:java-11-openjdk-11.0.18.0.10-1.el7_9.x86_64
+--> Processing Dependency: libgif.so.4()(64bit) for package: 1:java-11-openjdk-11.0.18.0.10-1.el7_9.x86_64
+--> Processing Dependency: libXtst.so.6()(64bit) for package: 1:java-11-openjdk-11.0.18.0.10-1.el7_9.x86_64
+--> Processing Dependency: libXrender.so.1()(64bit) for package: 1:java-11-openjdk-11.0.18.0.10-1.el7_9.x86_64
+--> Processing Dependency: libXi.so.6()(64bit) for package: 1:java-11-openjdk-11.0.18.0.10-1.el7_9.x86_64
+--> Processing Dependency: libXext.so.6()(64bit) for package: 1:java-11-openjdk-11.0.18.0.10-1.el7_9.x86_64
+--> Processing Dependency: libX11.so.6()(64bit) for package: 1:java-11-openjdk-11.0.18.0.10-1.el7_9.x86_64
+--> Running transaction check
+---> Package dejavu-sans-fonts.noarch 0:2.33-6.el7 will be installed
+--> Processing Dependency: dejavu-fonts-common = 2.33-6.el7 for package: dejavu-sans-fonts-2.33-6.el7.noarch
+---> Package fontpackages-filesystem.noarch 0:1.44-8.el7 will be installed
+---> Package giflib.x86_64 0:4.1.6-9.el7 will be installed
+--> Processing Dependency: libSM.so.6()(64bit) for package: giflib-4.1.6-9.el7.x86_64
+--> Processing Dependency: libICE.so.6()(64bit) for package: giflib-4.1.6-9.el7.x86_64
+---> Package java-11-openjdk-headless.x86_64 1:11.0.18.0.10-1.el7_9 will be installed
+--> Processing Dependency: tzdata-java >= 2022g for package: 1:java-11-openjdk-headless-11.0.18.0.10-1.el7_9.x86_64
+--> Processing Dependency: copy-jdk-configs >= 3.3 for package: 1:java-11-openjdk-headless-11.0.18.0.10-1.el7_9.x86_64
+--> Processing Dependency: pcsc-lite-libs(x86-64) for package: 1:java-11-openjdk-headless-11.0.18.0.10-1.el7_9.x86_64
+--> Processing Dependency: lksctp-tools(x86-64) for package: 1:java-11-openjdk-headless-11.0.18.0.10-1.el7_9.x86_64
+--> Processing Dependency: javapackages-tools for package: 1:java-11-openjdk-headless-11.0.18.0.10-1.el7_9.x86_64
+--> Processing Dependency: cups-libs(x86-64) for package: 1:java-11-openjdk-headless-11.0.18.0.10-1.el7_9.x86_64
+--> Processing Dependency: libharfbuzz.so.0()(64bit) for package: 1:java-11-openjdk-headless-11.0.18.0.10-1.el7_9.x86_64
+---> Package libX11.x86_64 0:1.6.7-4.el7_9 will be installed
+--> Processing Dependency: libX11-common >= 1.6.7-4.el7_9 for package: libX11-1.6.7-4.el7_9.x86_64
+--> Processing Dependency: libxcb.so.1()(64bit) for package: libX11-1.6.7-4.el7_9.x86_64
+---> Package libXext.x86_64 0:1.3.3-3.el7 will be installed
+---> Package libXi.x86_64 0:1.7.9-1.el7 will be installed
+---> Package libXrender.x86_64 0:0.9.10-1.el7 will be installed
+---> Package libXtst.x86_64 0:1.2.3-1.el7 will be installed
+---> Package libjpeg-turbo.x86_64 0:1.2.90-8.el7 will be installed
+---> Package xorg-x11-fonts-Type1.noarch 0:7.5-9.el7 will be installed
+--> Processing Dependency: ttmkfdir for package: xorg-x11-fonts-Type1-7.5-9.el7.noarch
+--> Processing Dependency: ttmkfdir for package: xorg-x11-fonts-Type1-7.5-9.el7.noarch
+--> Processing Dependency: mkfontdir for package: xorg-x11-fonts-Type1-7.5-9.el7.noarch
+--> Processing Dependency: mkfontdir for package: xorg-x11-fonts-Type1-7.5-9.el7.noarch
+--> Running transaction check
+---> Package copy-jdk-configs.noarch 0:3.3-11.el7_9 will be installed
+---> Package cups-libs.x86_64 1:1.6.3-51.el7 will be installed
+--> Processing Dependency: libavahi-common.so.3()(64bit) for package: 1:cups-libs-1.6.3-51.el7.x86_64
+--> Processing Dependency: libavahi-client.so.3()(64bit) for package: 1:cups-libs-1.6.3-51.el7.x86_64
+---> Package dejavu-fonts-common.noarch 0:2.33-6.el7 will be installed
+---> Package harfbuzz.x86_64 0:1.7.5-2.el7 will be installed
+--> Processing Dependency: libgraphite2.so.3()(64bit) for package: harfbuzz-1.7.5-2.el7.x86_64
+---> Package javapackages-tools.noarch 0:3.4.1-11.el7 will be installed
+--> Processing Dependency: python-javapackages = 3.4.1-11.el7 for package: javapackages-tools-3.4.1-11.el7.noarch
+---> Package libICE.x86_64 0:1.0.9-9.el7 will be installed
+---> Package libSM.x86_64 0:1.2.2-2.el7 will be installed
+---> Package libX11-common.noarch 0:1.6.7-4.el7_9 will be installed
+---> Package libxcb.x86_64 0:1.13-1.el7 will be installed
+--> Processing Dependency: libXau.so.6()(64bit) for package: libxcb-1.13-1.el7.x86_64
+---> Package lksctp-tools.x86_64 0:1.0.17-2.el7 will be installed
+---> Package pcsc-lite-libs.x86_64 0:1.8.8-8.el7 will be installed
+---> Package ttmkfdir.x86_64 0:3.0.9-42.el7 will be installed
+---> Package tzdata-java.noarch 0:2022g-1.el7 will be installed
+---> Package xorg-x11-font-utils.x86_64 1:7.5-21.el7 will be installed
+--> Processing Dependency: libfontenc.so.1()(64bit) for package: 1:xorg-x11-font-utils-7.5-21.el7.x86_64
+--> Running transaction check
+---> Package avahi-libs.x86_64 0:0.6.31-20.el7 will be installed
+---> Package graphite2.x86_64 0:1.3.10-1.el7_3 will be installed
+---> Package libXau.x86_64 0:1.0.8-2.1.el7 will be installed
+---> Package libfontenc.x86_64 0:1.1.3-3.el7 will be installed
+---> Package python-javapackages.noarch 0:3.4.1-11.el7 will be installed
+--> Processing Dependency: python-lxml for package: python-javapackages-3.4.1-11.el7.noarch
+--> Running transaction check
+---> Package python-lxml.x86_64 0:3.2.1-4.el7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+========================================================================================================================================
+ Package                                  Arch                   Version                                  Repository               Size
+========================================================================================================================================
+Installing:
+ fontconfig                               x86_64                 2.13.0-4.3.el7                           base                    254 k
+ java-11-openjdk                          x86_64                 1:11.0.18.0.10-1.el7_9                   updates                 239 k
+Installing for dependencies:
+ avahi-libs                               x86_64                 0.6.31-20.el7                            base                     62 k
+ copy-jdk-configs                         noarch                 3.3-11.el7_9                             updates                  22 k
+ cups-libs                                x86_64                 1:1.6.3-51.el7                           base                    359 k
+ dejavu-fonts-common                      noarch                 2.33-6.el7                               base                     64 k
+ dejavu-sans-fonts                        noarch                 2.33-6.el7                               base                    1.4 M
+ fontpackages-filesystem                  noarch                 1.44-8.el7                               base                    9.9 k
+ giflib                                   x86_64                 4.1.6-9.el7                              base                     40 k
+ graphite2                                x86_64                 1.3.10-1.el7_3                           base                    115 k
+ harfbuzz                                 x86_64                 1.7.5-2.el7                              base                    267 k
+ java-11-openjdk-headless                 x86_64                 1:11.0.18.0.10-1.el7_9                   updates                  39 M
+ javapackages-tools                       noarch                 3.4.1-11.el7                             base                     73 k
+ libICE                                   x86_64                 1.0.9-9.el7                              base                     66 k
+ libSM                                    x86_64                 1.2.2-2.el7                              base                     39 k
+ libX11                                   x86_64                 1.6.7-4.el7_9                            updates                 607 k
+ libX11-common                            noarch                 1.6.7-4.el7_9                            updates                 164 k
+ libXau                                   x86_64                 1.0.8-2.1.el7                            base                     29 k
+ libXext                                  x86_64                 1.3.3-3.el7                              base                     39 k
+ libXi                                    x86_64                 1.7.9-1.el7                              base                     40 k
+ libXrender                               x86_64                 0.9.10-1.el7                             base                     26 k
+ libXtst                                  x86_64                 1.2.3-1.el7                              base                     20 k
+ libfontenc                               x86_64                 1.1.3-3.el7                              base                     31 k
+ libjpeg-turbo                            x86_64                 1.2.90-8.el7                             base                    135 k
+ libxcb                                   x86_64                 1.13-1.el7                               base                    214 k
+ lksctp-tools                             x86_64                 1.0.17-2.el7                             base                     88 k
+ pcsc-lite-libs                           x86_64                 1.8.8-8.el7                              base                     34 k
+ python-javapackages                      noarch                 3.4.1-11.el7                             base                     31 k
+ python-lxml                              x86_64                 3.2.1-4.el7                              base                    758 k
+ ttmkfdir                                 x86_64                 3.0.9-42.el7                             base                     48 k
+ tzdata-java                              noarch                 2022g-1.el7                              updates                 185 k
+ xorg-x11-font-utils                      x86_64                 1:7.5-21.el7                             base                    104 k
+ xorg-x11-fonts-Type1                     noarch                 7.5-9.el7                                base                    521 k
+
+Transaction Summary
+========================================================================================================================================
+Install  2 Packages (+31 Dependent packages)
+
+Total download size: 45 M
+Installed size: 181 M
+Is this ok [y/d/N]: y
+Downloading packages:
+(1/33): copy-jdk-configs-3.3-11.el7_9.noarch.rpm                                                                 |  22 kB  00:00:00
+(2/33): avahi-libs-0.6.31-20.el7.x86_64.rpm                                                                      |  62 kB  00:00:00
+(3/33): fontpackages-filesystem-1.44-8.el7.noarch.rpm                                                            | 9.9 kB  00:00:00
+(4/33): giflib-4.1.6-9.el7.x86_64.rpm                                                                            |  40 kB  00:00:00
+(5/33): cups-libs-1.6.3-51.el7.x86_64.rpm                                                                        | 359 kB  00:00:00
+(6/33): graphite2-1.3.10-1.el7_3.x86_64.rpm                                                                      | 115 kB  00:00:00
+(7/33): harfbuzz-1.7.5-2.el7.x86_64.rpm                                                                          | 267 kB  00:00:00
+(8/33): java-11-openjdk-11.0.18.0.10-1.el7_9.x86_64.rpm                                                          | 239 kB  00:00:00
+(9/33): javapackages-tools-3.4.1-11.el7.noarch.rpm                                                               |  73 kB  00:00:00
+(10/33): libICE-1.0.9-9.el7.x86_64.rpm                                                                           |  66 kB  00:00:00
+(11/33): libSM-1.2.2-2.el7.x86_64.rpm                                                                            |  39 kB  00:00:00
+(12/33): libX11-1.6.7-4.el7_9.x86_64.rpm                                                                         | 607 kB  00:00:00
+(13/33): libX11-common-1.6.7-4.el7_9.noarch.rpm                                                                  | 164 kB  00:00:00
+(14/33): libXau-1.0.8-2.1.el7.x86_64.rpm                                                                         |  29 kB  00:00:00
+(15/33): libXext-1.3.3-3.el7.x86_64.rpm                                                                          |  39 kB  00:00:00
+(16/33): libXi-1.7.9-1.el7.x86_64.rpm                                                                            |  40 kB  00:00:00
+(17/33): libXrender-0.9.10-1.el7.x86_64.rpm                                                                      |  26 kB  00:00:00
+(18/33): libXtst-1.2.3-1.el7.x86_64.rpm                                                                          |  20 kB  00:00:00
+(19/33): libfontenc-1.1.3-3.el7.x86_64.rpm                                                                       |  31 kB  00:00:00
+(20/33): libjpeg-turbo-1.2.90-8.el7.x86_64.rpm                                                                   | 135 kB  00:00:00
+(21/33): libxcb-1.13-1.el7.x86_64.rpm                                                                            | 214 kB  00:00:00
+(22/33): lksctp-tools-1.0.17-2.el7.x86_64.rpm                                                                    |  88 kB  00:00:00
+(23/33): pcsc-lite-libs-1.8.8-8.el7.x86_64.rpm                                                                   |  34 kB  00:00:00
+(24/33): python-javapackages-3.4.1-11.el7.noarch.rpm                                                             |  31 kB  00:00:00
+(25/33): python-lxml-3.2.1-4.el7.x86_64.rpm                                                                      | 758 kB  00:00:00
+(26/33): ttmkfdir-3.0.9-42.el7.x86_64.rpm                                                                        |  48 kB  00:00:00
+(27/33): tzdata-java-2022g-1.el7.noarch.rpm                                                                      | 185 kB  00:00:00
+(28/33): xorg-x11-font-utils-7.5-21.el7.x86_64.rpm                                                               | 104 kB  00:00:00
+(29/33): xorg-x11-fonts-Type1-7.5-9.el7.noarch.rpm                                                               | 521 kB  00:00:00
+(30/33): fontconfig-2.13.0-4.3.el7.x86_64.rpm                                                                    | 254 kB  00:00:04
+(31/33): dejavu-sans-fonts-2.33-6.el7.noarch.rpm                                                                 | 1.4 MB  00:00:16
+(32/33): dejavu-fonts-common-2.33-6.el7.noarch.rpm                                                               |  64 kB  00:00:28
+(33/33): java-11-openjdk-headless-11.0.18.0.10-1.el7_9.x86_64.rpm                                                |  39 MB  00:00:30
+----------------------------------------------------------------------------------------------------------------------------------------
+Total                                                                                                   1.4 MB/s |  45 MB  00:00:31
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : libjpeg-turbo-1.2.90-8.el7.x86_64                                                                                   1/33
+  Installing : fontpackages-filesystem-1.44-8.el7.noarch                                                                           2/33
+  Installing : libICE-1.0.9-9.el7.x86_64                                                                                           3/33
+  Installing : libSM-1.2.2-2.el7.x86_64                                                                                            4/33
+  Installing : dejavu-fonts-common-2.33-6.el7.noarch                                                                               5/33
+  Installing : dejavu-sans-fonts-2.33-6.el7.noarch                                                                                 6/33
+  Installing : fontconfig-2.13.0-4.3.el7.x86_64                                                                                    7/33
+  Installing : avahi-libs-0.6.31-20.el7.x86_64                                                                                     8/33
+  Installing : 1:cups-libs-1.6.3-51.el7.x86_64                                                                                     9/33
+  Installing : libX11-common-1.6.7-4.el7_9.noarch                                                                                 10/33
+  Installing : copy-jdk-configs-3.3-11.el7_9.noarch                                                                               11/33
+  Installing : libfontenc-1.1.3-3.el7.x86_64                                                                                      12/33
+  Installing : 1:xorg-x11-font-utils-7.5-21.el7.x86_64                                                                            13/33
+  Installing : graphite2-1.3.10-1.el7_3.x86_64                                                                                    14/33
+  Installing : harfbuzz-1.7.5-2.el7.x86_64                                                                                        15/33
+  Installing : libXau-1.0.8-2.1.el7.x86_64                                                                                        16/33
+  Installing : libxcb-1.13-1.el7.x86_64                                                                                           17/33
+  Installing : libX11-1.6.7-4.el7_9.x86_64                                                                                        18/33
+  Installing : libXext-1.3.3-3.el7.x86_64                                                                                         19/33
+  Installing : libXi-1.7.9-1.el7.x86_64                                                                                           20/33
+  Installing : libXtst-1.2.3-1.el7.x86_64                                                                                         21/33
+  Installing : giflib-4.1.6-9.el7.x86_64                                                                                          22/33
+  Installing : libXrender-0.9.10-1.el7.x86_64                                                                                     23/33
+  Installing : pcsc-lite-libs-1.8.8-8.el7.x86_64                                                                                  24/33
+  Installing : lksctp-tools-1.0.17-2.el7.x86_64                                                                                   25/33
+  Installing : ttmkfdir-3.0.9-42.el7.x86_64                                                                                       26/33
+  Installing : xorg-x11-fonts-Type1-7.5-9.el7.noarch                                                                              27/33
+  Installing : tzdata-java-2022g-1.el7.noarch                                                                                     28/33
+  Installing : python-lxml-3.2.1-4.el7.x86_64                                                                                     29/33
+  Installing : python-javapackages-3.4.1-11.el7.noarch                                                                            30/33
+  Installing : javapackages-tools-3.4.1-11.el7.noarch                                                                             31/33
+  Installing : 1:java-11-openjdk-headless-11.0.18.0.10-1.el7_9.x86_64                                                             32/33
+  Installing : 1:java-11-openjdk-11.0.18.0.10-1.el7_9.x86_64                                                                      33/33
+  Verifying  : libXext-1.3.3-3.el7.x86_64                                                                                          1/33
+  Verifying  : libXi-1.7.9-1.el7.x86_64                                                                                            2/33
+  Verifying  : fontconfig-2.13.0-4.3.el7.x86_64                                                                                    3/33
+  Verifying  : giflib-4.1.6-9.el7.x86_64                                                                                           4/33
+  Verifying  : libXrender-0.9.10-1.el7.x86_64                                                                                      5/33
+  Verifying  : 1:xorg-x11-font-utils-7.5-21.el7.x86_64                                                                             6/33
+  Verifying  : python-lxml-3.2.1-4.el7.x86_64                                                                                      7/33
+  Verifying  : tzdata-java-2022g-1.el7.noarch                                                                                      8/33
+  Verifying  : 1:java-11-openjdk-11.0.18.0.10-1.el7_9.x86_64                                                                       9/33
+  Verifying  : libICE-1.0.9-9.el7.x86_64                                                                                          10/33
+  Verifying  : fontpackages-filesystem-1.44-8.el7.noarch                                                                          11/33
+  Verifying  : ttmkfdir-3.0.9-42.el7.x86_64                                                                                       12/33
+  Verifying  : 1:cups-libs-1.6.3-51.el7.x86_64                                                                                    13/33
+  Verifying  : 1:java-11-openjdk-headless-11.0.18.0.10-1.el7_9.x86_64                                                             14/33
+  Verifying  : python-javapackages-3.4.1-11.el7.noarch                                                                            15/33
+  Verifying  : dejavu-fonts-common-2.33-6.el7.noarch                                                                              16/33
+  Verifying  : libXtst-1.2.3-1.el7.x86_64                                                                                         17/33
+  Verifying  : libxcb-1.13-1.el7.x86_64                                                                                           18/33
+  Verifying  : lksctp-tools-1.0.17-2.el7.x86_64                                                                                   19/33
+  Verifying  : libjpeg-turbo-1.2.90-8.el7.x86_64                                                                                  20/33
+  Verifying  : xorg-x11-fonts-Type1-7.5-9.el7.noarch                                                                              21/33
+  Verifying  : harfbuzz-1.7.5-2.el7.x86_64                                                                                        22/33
+  Verifying  : dejavu-sans-fonts-2.33-6.el7.noarch                                                                                23/33
+  Verifying  : pcsc-lite-libs-1.8.8-8.el7.x86_64                                                                                  24/33
+  Verifying  : javapackages-tools-3.4.1-11.el7.noarch                                                                             25/33
+  Verifying  : libXau-1.0.8-2.1.el7.x86_64                                                                                        26/33
+  Verifying  : libSM-1.2.2-2.el7.x86_64                                                                                           27/33
+  Verifying  : libX11-1.6.7-4.el7_9.x86_64                                                                                        28/33
+  Verifying  : graphite2-1.3.10-1.el7_3.x86_64                                                                                    29/33
+  Verifying  : libfontenc-1.1.3-3.el7.x86_64                                                                                      30/33
+  Verifying  : copy-jdk-configs-3.3-11.el7_9.noarch                                                                               31/33
+  Verifying  : libX11-common-1.6.7-4.el7_9.noarch                                                                                 32/33
+  Verifying  : avahi-libs-0.6.31-20.el7.x86_64                                                                                    33/33
+
+Installed:
+  fontconfig.x86_64 0:2.13.0-4.3.el7                            java-11-openjdk.x86_64 1:11.0.18.0.10-1.el7_9
+
+Dependency Installed:
+  avahi-libs.x86_64 0:0.6.31-20.el7                           copy-jdk-configs.noarch 0:3.3-11.el7_9
+  cups-libs.x86_64 1:1.6.3-51.el7                             dejavu-fonts-common.noarch 0:2.33-6.el7
+  dejavu-sans-fonts.noarch 0:2.33-6.el7                       fontpackages-filesystem.noarch 0:1.44-8.el7
+  giflib.x86_64 0:4.1.6-9.el7                                 graphite2.x86_64 0:1.3.10-1.el7_3
+  harfbuzz.x86_64 0:1.7.5-2.el7                               java-11-openjdk-headless.x86_64 1:11.0.18.0.10-1.el7_9
+  javapackages-tools.noarch 0:3.4.1-11.el7                    libICE.x86_64 0:1.0.9-9.el7
+  libSM.x86_64 0:1.2.2-2.el7                                  libX11.x86_64 0:1.6.7-4.el7_9
+  libX11-common.noarch 0:1.6.7-4.el7_9                        libXau.x86_64 0:1.0.8-2.1.el7
+  libXext.x86_64 0:1.3.3-3.el7                                libXi.x86_64 0:1.7.9-1.el7
+  libXrender.x86_64 0:0.9.10-1.el7                            libXtst.x86_64 0:1.2.3-1.el7
+  libfontenc.x86_64 0:1.1.3-3.el7                             libjpeg-turbo.x86_64 0:1.2.90-8.el7
+  libxcb.x86_64 0:1.13-1.el7                                  lksctp-tools.x86_64 0:1.0.17-2.el7
+  pcsc-lite-libs.x86_64 0:1.8.8-8.el7                         python-javapackages.noarch 0:3.4.1-11.el7
+  python-lxml.x86_64 0:3.2.1-4.el7                            ttmkfdir.x86_64 0:3.0.9-42.el7
+  tzdata-java.noarch 0:2022g-1.el7                            xorg-x11-font-utils.x86_64 1:7.5-21.el7
+  xorg-x11-fonts-Type1.noarch 0:7.5-9.el7
+
+Complete!
+[root@MASTER ~]# yum install jenkins
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: centos.excellmedia.net
+ * epel: repo.extreme-ix.org
+ * extras: centos.excellmedia.net
+ * updates: centos.excellmedia.net
+Resolving Dependencies
+--> Running transaction check
+---> Package jenkins.noarch 0:2.389-1.1 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+========================================================================================================================================
+ Package                         Arch                           Version                           Repository                       Size
+========================================================================================================================================
+Installing:
+ jenkins                         noarch                         2.389-1.1                         jenkins                          94 M
+
+Transaction Summary
+========================================================================================================================================
+Install  1 Package
+
+Total download size: 94 M
+Installed size: 94 M
+Is this ok [y/d/N]: y
+Downloading packages:
+jenkins-2.389-1.1.noarch.rpm                                                                                     |  94 MB  00:02:10
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : jenkins-2.389-1.1.noarch                                                                                             1/1
+  Verifying  : jenkins-2.389-1.1.noarch                                                                                             1/1
+
+Installed:
+  jenkins.noarch 0:2.389-1.1
+
+Complete!
+
+
+[root@MASTER ~]# systemctl enable jenkins
+Created symlink from /etc/systemd/system/multi-user.target.wants/jenkins.service to /usr/lib/systemd/system/jenkins.service.
+[root@MASTER ~]# systemctl status jenkins
+● jenkins.service - Jenkins Continuous Integration Server
+   Loaded: loaded (/usr/lib/systemd/system/jenkins.service; enabled; vendor preset: disabled)
+   Active: activating (start) since Fri 2023-02-03 01:34:27 IST; 19s ago
+ Main PID: 23586 (java)
+    Tasks: 49
+   Memory: 330.1M
+   CGroup: /system.slice/jenkins.service
+           └─23586 /usr/bin/java -Djava.awt.headless=true -jar /usr/share/java/jenkins.war --webroot=%C/jenkins/war --httpPort=8080
+
+Feb 03 01:34:39 MASTER jenkins[23586]: *************************************************************
+Feb 03 01:34:39 MASTER jenkins[23586]: *************************************************************
+Feb 03 01:34:39 MASTER jenkins[23586]: *************************************************************
+Feb 03 01:34:39 MASTER jenkins[23586]: Jenkins initial setup is required. An admin user has been created and a password generated.
+Feb 03 01:34:39 MASTER jenkins[23586]: Please use the following password to proceed to installation:
+Feb 03 01:34:39 MASTER jenkins[23586]: a87b36310def4ec992dcdf9dc50e326e
+Feb 03 01:34:39 MASTER jenkins[23586]: This may also be found at: /var/lib/jenkins/secrets/initialAdminPassword
+Feb 03 01:34:39 MASTER jenkins[23586]: *************************************************************
+Feb 03 01:34:39 MASTER jenkins[23586]: *************************************************************
+Feb 03 01:34:39 MASTER jenkins[23586]: *************************************************************
+[root@MASTER ~]# cat /var/lib/jenkins/secrets/initialAdminPassword
+a87b36310def4ec992dcdf9dc50e326e
+
+
+[root@MASTER ~]#vi /usr/lib/systemd/system/jenkins.service
+for change any configrations
