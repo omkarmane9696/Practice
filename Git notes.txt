@@ -125,7 +125,16 @@ git alias means insted of long you  can use short command
 #git config --global alias.last 'log -p -1'
      now insted of 'last -p -1' we can use directly #git last
       it show last commits 
-	  
+
+
+New branch creation in git
+#git checkout -b branch_name
+     it is used to create new brach. now new developer can change as he wannts
+
+#git checkout master
+   it is used to switch to master branch
+
+   
 	  
     
 
