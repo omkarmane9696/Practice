@@ -110,4 +110,23 @@ steps to add ssh in github
 
 after hit last command select your output and paste it in github site in ssh keys
 
+
+
+
+git alias means insted of long you  can use short command
+
+#git config --global alias.st status
+     now insted of status we can use st for ex. #git st
+	  it show git status
+	  
+#git config --global alias.unstage 'restore --staged --'
+     now insted of 'restore --staged --' we can directly use #git unstage filename
+    
+#git config --global alias.last 'log -p -1'
+     now insted of 'last -p -1' we can use directly #git last
+      it show last commits 
+	  
+	  
+    
+
 omkarmane9696/Practice 13 complete
