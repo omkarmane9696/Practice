@@ -147,14 +147,42 @@ New branch creation in git
 	
 #git push origin branch_name:fix_code
     in loacl repository branch_name is your branch name if you want change bracnh name in github at the time of push code into the github then you can use this command
+     
+	 $ git push origin master:test
+	   Total 0 (delta 0), reused 0 (delta 0), pack-reused 0
+       remote:
+       remote: Create a pull request for 'test' on GitHub by visiting:
+       remote:      https://github.com/omkarmane9696/Practice/pull/new/test
+       remote:
+       To https://github.com/omkarmane9696/Practice.git
+       * [new branch]      master -> test
+
+
+$ git push -d origin test
+To https://github.com/omkarmane9696/Practice.git
+ - [deleted]         test
+
+this commandis used to delete brach from github
+
+
 
 #git push origin     or  # git push
  this is used for upload changes in master branch
- 
- 
+ Example:
+ $ git push origin
+Enumerating objects: 9, done.
+Counting objects: 100% (9/9), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (7/7), done.
+Writing objects: 100% (7/7), 1015 bytes | 507.00 KiB/s, done.
+Total 7 (delta 4), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (4/4), completed with 2 local objects.
+To https://github.com/omkarmane9696/Practice.git
+   576d7e7..3783e0a  master -> master
+
 
    
 	  
     
 
-omkarmane9696/Practice 13 complete
+
