@@ -1,0 +1,146 @@
+
+_________________________suraj--------------------------
+
+Questions for L1 round
+i)Tell me about yfour experience.
+ii) current project architecture.(no .Of servers and no.of applications how you are maintained...Etc)
+iii) Performance Tuning Related questions.
+iv)latest version of Jboss and weblogic and also Jdk latest version and latest patch details .
+v)how to apply the patch 
+Vi)what is the cluster use how to configure cluster group
+Vii)What type of cluster present project you are using (if horizontal why horizontal or Vertical why vertical)
+Viii)How to Configure Horizontal Cluster in different nodes ..
+Ix)how to generate heap dump and thread dump and what is the heap memory ..
+X)if you generate the heap dump what parameters are you looking into the dump same like thread dump
+Xi)300 ,400,500 related error details
+Xii)if any application slowly responding how are able to troubleshoot.
+Xiii) if we apply jdk security pactch what are the configuration files need to be changed 
+Xiv)how to migrate and apply the patches in both weblogic and jboss
+Xv)latest versions of jboss & weblogic futures.
+________________________________________________________________
+
+. How to analyze thread dump
+. How to anyalze gc logs
+. Apchae ssl
+. Osh ssl
+. Weblogic parameter tuning
+. How to confirn after tuning parameter no restart required
+. Or restart required from console
+. Data source and types
+. Meta space and perm space difference
+. Grid link dara source working
+. Url not working steps to troubleshooting
+. What all technology you know
+. Rate your self in weblogic ohs and oem
+. High cpu utilization he
+. Troubleshooting
+. Cluster and communication
+. Gc pe bahot puchha re
+. Gc complete
+. Aur heap dump analysis pura
+. Rest try to go through installation configuration ssl configuration
+.Cluster configuration
+.Ohs installation
+
+______________________by OM------------------
+
+1)introduce your self? day to day activities 
+installation configuration weblogic and ohs/cluster/patching/ssl/jdk updgration/weblogic or ohs migratio upgradtion, performance tunning, troubleshooting,thread dump analysis
+
+2)Weblogic installation type?
+generic console silent
+
+installation steps
+copy binary-->install java --> goto java bin run installation command--> java -jar binaryname -silent -responseFile .rsp file path -invPtrLoc .loc file path
+
+3)OHS installation type?
+generic console silent
+
+installation steps with java
+copy binary-->install java --> run installation command--> ./binaryname.bin -jreLoc java bin path -silent -responseFile .rsp file path -invPtrLoc .loc file path
+
+installation steps with out java
+./binaryname.bin -silent -responseFile .rsp file path -invPtrLoc .loc file path
+
+4) cluster setup
+fisrt thing we need same os/same HW configuration/same weblogic version/ same jdk/same domain path/same middleware path--> after that
+copy binary and jdk --> install jdk --> installation weblogic on all nodes--> then confirm one server as admin server and create domain try to start and stop domain --> after that goto oracle_commomn/common/bin and run pack command thsi command create domain jar file--> after that copy this jar file on all remaining node --> after that goto oracle_commomn/common/bin and run unpack command --> then edit nodemanager.properties --> goto admin server console crate manage servers try start all manage server and after starting stop all manage servers --> after that goto cluster cretae new cluster goto server tab and all manage servers after adding all manage server start all servers. 
+
+horizontal and vertical cluster ???
+
+5) weblogic ohs binding
+weblogic side configuration
+goto manager server general configration tab-> advace-> weblogic plug in option availabe there --> in drop down list select yes option and save..
+
+ohs side configration
+domainhome/config/fmwconfig/compopnet/ohs/ohs1-->take backup of mod_wl_ohs.conf atfer that edit this file --> enter contxt root, setweblogic handler,ip and port
+
+after that take both stop start.
+
+6)ssl configuration trusted (CA signed * purchase)
+
+first we need to create CSR and JKS using keytool command--> after that send CSR and JKS  3kb to vendor digicert or entrust--> vendor provide bundle certicate to us --> from this budundle certificate extract 4 certifiate server/root/inter2/inter1 -->import all 4 certificate into 3kb JKS after that JKS size is 11KB-->copy that file into server -->take config.xml--> goto manager server -> keystore tab is there csutom identifty java standard trust -> jks copy /fullpathwhere your jks is locted/icore.jks--> below that type jks--> after that enter password and cofirm password---> SSL tab--> isafe.xyzbank.com---> enetr password and cofirm password--> geenaral configration SSL port enable ......reastsrat manage server  
+
+7)opatch 
+
+take backup oracle home and domain 
+
+once your opatch version updgarded then we cannot degrade it that is the reason we take oracle home backup
+
+opatch upgradtion-->
+goto java bin --> 
+./java -jar /Oracle/middleware/oracle_home/opatch/688088/opatch.jar -silent oracle_home=/Oracle/middleware/oracle_home
+
+
+laterst patch April 22 
+
+/Oracle/middleware/oracle_hoem/opatch
+
+opatch verison / apply / nappy / rollback / nrollback/ lspatchces/ lsinv/ lsinventory
+
+opatch version 
+opatch apply 33692551
+opatch rollback id 33692551
+
+
+8)jdk updration 
+
+copy altest jdk -->installl
+don.t delete old jdk keeep as it is
+
+bin -->setdominenv.sh
+bin-->nmajavahome.sh
+nodemanager-->nodemagr.porper
+
+/Oracle/middleware/oracle_home/oui/ ls -la -->   .globalEnv.properties
+
+
+9)12.2.1.4 current latest 14.1.1.0  weblogic ohs upgardation 
+tow ways 
+a)fresh installation of new setup test it  then deinduct old one
+b)12.2.1.4 current ruung setup  just install latest weblogic version 14.1.1.0  stop old setup --> goto 14.1.1.0 
+/Oracle/middleware/oracle_home/oracle_common/common/bin then run recofig.cmd or .sh file
+
+
+10)performance tunning
+
+1) memory argurment
+2) 
+
+11)bsu and opatch diff
+12) prod adn dev mode diff
+13)11G and 12c or 14C diff
+14) data source and type
+15 admin server /manager server / nodemanager 
+16) default port
+17)can we start manage server with nodemager
+18) why we use nodemager 
+19)without start admin server can we start manage server
+20) if admin server is down then can we access out application URL or application is accissible or not
+21) weblogic ohs versions support and end of support
+22) Apllication slowness issue
+23) states of threads
+
+-----------------------------------------------
+
+

@@ -1,0 +1,82 @@
+############### Setup Kubernets with Minikube in Windows
+
+node (a machine — physical or virtual — in our cluster)
+pod (group of containers running together on a node)
+service (stable network endpoint to connect to one or multiple containers)
+
+Importents links:-
+
+Install and set up the kubectl tool: –
+https://kubernetes.io/docs/tasks/tools/
+
+Install Minikube: –
+https://minikube.sigs.k8s.io/docs/start/
+https://minikube.sigs.k8s.io/docs/drivers/
+https://minikube.sigs.k8s.io/docs/drivers/hyperv/
+
+Install VirtualBox: –
+https://www.virtualbox.org/wiki/Downloads
+https://www.virtualbox.org/wiki/Linux_Downloads
+
+
+Minikube Tutorial: –
+https://kubernetes.io/docs/tutorials/hello-minikube/
+
+
+Note:-
+1. Vurtualization should be enable in BIOS
+2. HyperV should be enable
+3. Internet should be working
+
+Step 1: Open powershell as Admin and run below
+
+PS C:\WINDOWS\system32>New-Item -Path 'c:\' -Name 'minikube' -ItemType Directory -Force
+Invoke-WebRequest -OutFile 'c:\minikube\minikube.exe' -Uri 'https://github.com/kubernetes/minikube/releases/latest/download/minikube-windows-amd64.exe' -UseBasicParsing
+
+
+PS C:\WINDOWS\system32>$oldPath = [Environment]::GetEnvironmentVariable('Path', [EnvironmentVariableTarget]::Machine)
+if ($oldPath.Split(';') -inotcontains 'C:\minikube'){ `
+  [Environment]::SetEnvironmentVariable('Path', $('{0};C:\minikube' -f $oldPath), [EnvironmentVariableTarget]::Machine) `
+}
+
+
+Note - After successfull installation use below commands..
+
+minikube start --driver=hyperv - to start minikube using hyperv
+minikube config set driver hyperv - to set permanent hyperV driver 
+
+Minikube start
+Minikube status
+Minikube stop
+minikube delete
+
+minikube dashboard - to start kubernet dashboard 
+
+================ Example some commands 
+Create a Deployment-
+kubectl create deployment web --image=httpd
+kubectl get deployments
+kubectl get pods
+kubectl get pods -o wide 
+kubectl get events
+kubectl config view
+
+Create a Service-
+kubectl expose deployment web --type=LoadBalancer --port=80
+kubectl get services
+minikube service web - to check in browser 
+
+
+########################## Other commands 
+kubectl port-forward service/hello-minikube 7080:8080
+kubectl expose deployment http-webserver --type=NodePort --port=8081
+kubectl port-forward service/http-webserver 7080:8081
+
+
+! C:\ProgramData\chocolatey\bin\kubectl.exe is version 1.22.1, which may have incompatibilites with Kubernetes 1.24.3.
+  - Want kubectl v1.24.3? Try 'minikube kubectl -- get pods -A'
+* Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
+
+
+
+

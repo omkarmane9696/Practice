@@ -1,0 +1,374 @@
+##############Docker Swarm Setup
+https://docs.docker.com/engine/swarm/swarm-tutorial/create-swarm/
+https://docs.docker.com/engine/swarm/swarm-tutorial/add-nodes/
+https://docs.docker.com/engine/swarm/swarm-tutorial/deploy-service/
+
+
+
+3MASTER+3SLAVE NODE
+
+1. Docker insatll on all 6 Nodes.
+
+2. Docker need to start on all 6 nodes
+ service docker start
+
+___________________________________________________________________________________
+docker swarm COMMAND
+# docker service --help
+
+
+#docker info
+Swarm:  will not show 
+
+====Master Side (Host1)
+
+# docker swarm init   -------------it will inisiate swarm (cluster featurs enabled)
+
+docker swarm join --token SWMTKN-1-40cegw2qmyiu7bb6kvzpoddz16wuxt7z4t0yezfqwrwahi4th2-bp9hn315kl2ywzk2leulwb56i 172.31.155.114:2377    ------this result will show once hit the docker swarm init
+
+#docker info
+Swarm: active
+
+
+# docker node ls   ----it will show the SWARm Node status
+
+ID                            HOSTNAME   STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
+bwl463xqxif0mv5mzzjv53jty *   host1      Ready     Active         Leader           20.10.18
+
+
+___________________________________________________________________
+__
+====Master Side (Host2)
+
+first got Host1 and hit below command it will generate manager token 
+
+[root@host1 ~]# docker swarm join-token manager
+
+To add a manager to this swarm, run the following command:
+docker swarm join --token SWMTKN-1-40cegw2qmyiu7bb6kvzpoddz16wuxt7z4t0yezfqwrwahi4th2-3fvqsi3pnsivzz5q0a8hr13rc 172.31.155.114:2377
+
+
+Now got Host2 and hit above token 
+docker swarm join --token SWMTKN-1-40cegw2qmyiu7bb6kvzpoddz16wuxt7z4t0yezfqwrwahi4th2-3fvqsi3pnsivzz5q0a8hr13rc 172.31.155.114:2377
+
+
+[root@host2 ~]# docker node ls
+ID                            HOSTNAME   STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
+bwl463xqxif0mv5mzzjv53jty     host1      Ready     Active         Leader           20.10.18
+ka6in4gdl7p3tcyepkoirbjwl *   host2      Ready     Active         Reachable        20.10.18
+
+
+________________________________________________________________________________________________________________
+
+
+_====Master Side (Host3)
+
+first got Host1 and hit below command it will generate manager token 
+
+[root@host1 ~]# docker swarm join-token manager
+
+To add a manager to this swarm, run the following command:
+docker swarm join --token SWMTKN-1-40cegw2qmyiu7bb6kvzpoddz16wuxt7z4t0yezfqwrwahi4th2-3fvqsi3pnsivzz5q0a8hr13rc 172.31.155.114:2377
+
+
+Now got Host3 and hit above token 
+docker swarm join --token SWMTKN-1-40cegw2qmyiu7bb6kvzpoddz16wuxt7z4t0yezfqwrwahi4th2-3fvqsi3pnsivzz5q0a8hr13rc 172.31.155.114:2377
+
+
+[root@host3 ~]# docker node ls
+ID                            HOSTNAME   STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
+bwl463xqxif0mv5mzzjv53jty     host1      Ready     Active         Leader           20.10.18
+ka6in4gdl7p3tcyepkoirbjwl     host2      Ready     Active         Reachable        20.10.18
+2feh8q5h1p5jhpt2q68kk9eda *   host3      Ready     Active         Reachable        20.10.18
+
+
+_________________________________________________________________________________________________________________
+   SLAVE SIDE CONFIGURATION:  Host4,Host5,Host6
+
+Frist go to (Host1) Master side run generate the worker token
+[root@host1 ~]# docker swarm join-token worker
+To add a worker to this swarm, run the following command:
+
+docker swarm join --token SWMTKN-1-40cegw2qmyiu7bb6kvzpoddz16wuxt7z4t0yezfqwrwahi4th2-bp9hn315kl2ywzk2leulwb56i 172.31.155.114:2377
+
+
+Now go to Host4,Host5,Host6 and hit the token (docker swarm join --token SWMTKN-1-40cegw2qmyiu7bb6kvzpoddz16wuxt7z4t0yezfqwrwahi4th2-bp9hn315kl2ywzk2leulwb56i 172.31.155.114:2377)
+
+________________________________________________________________________________________________________________
+
+
+For checking go to master side host1,2,3 hit below command
+
+[root@host1 ~]# docker node ls
+ID                            HOSTNAME   STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
+bwl463xqxif0mv5mzzjv53jty *   host1      Ready     Active         Leader           20.10.18
+ka6in4gdl7p3tcyepkoirbjwl     host2      Ready     Active         Reachable        20.10.18
+2feh8q5h1p5jhpt2q68kk9eda     host3      Ready     Active         Reachable        20.10.18
+mir5b33nx15a0woroz0nq3y6l     host4      Ready     Active                          20.10.18
+etqq23dvkocgqso1ul00klg0d     host5      Ready     Active                          20.10.18
+n1jwfuop7iw3d1dw2swfi6pnl     host6      Ready     Active                          20.10.18
+
+
+_______________________________________________________________________________________________
+
+[root@host1 ~]# docker node ls
+ID                            HOSTNAME   STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
+bwl463xqxif0mv5mzzjv53jty *   host1      Ready     Active         Leader           20.10.18
+ka6in4gdl7p3tcyepkoirbjwl     host2      Ready     Active         Reachable        20.10.18
+2feh8q5h1p5jhpt2q68kk9eda     host3      Ready     Active         Reachable        20.10.18
+mir5b33nx15a0woroz0nq3y6l     host4      Ready     Active                          20.10.18
+etqq23dvkocgqso1ul00klg0d     host5      Ready     Active                          20.10.18
+n1jwfuop7iw3d1dw2swfi6pnl     host6      Ready     Active                          20.10.18
+
+
+From the avove command we could see 6 node 3 manager but in producrion we are not using node , so use below command to remove:
+(docker node update --availability drain docker-master - this will remove docker master from cluster but you can use all commands)
+
+[root@host1 ~]# docker node update --availability drain host1
+host1
+[root@host1 ~]# docker node update --availability drain host2
+host2
+[root@host1 ~]# docker node update --availability drain host3
+
+
+[root@host1 ~]# docker node ls
+ID                            HOSTNAME   STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
+bwl463xqxif0mv5mzzjv53jty *   host1      Ready     Drain          Leader           20.10.18
+ka6in4gdl7p3tcyepkoirbjwl     host2      Ready     Drain          Reachable        20.10.18
+2feh8q5h1p5jhpt2q68kk9eda     host3      Ready     Drain          Reachable        20.10.18
+mir5b33nx15a0woroz0nq3y6l     host4      Ready     Active                          20.10.18
+etqq23dvkocgqso1ul00klg0d     host5      Ready     Active                          20.10.18
+n1jwfuop7iw3d1dw2swfi6pnl     host6      Ready     Active                          20.10.18
+
+
+___________________________________________________________________________________________________________________________
+
+Activity:1
+
+go to Master host1 run 
+
+[root@host1 ~]# docker service create httpd
+
+above httpd service will create automatically any node- (host5)
+
+now shutdown the host5/stop the container  where automaticaly httpd services created
+
+to verify go to any master and check: 
+
+[root@host1 ~]# docker node ls
+ID                            HOSTNAME   STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
+bwl463xqxif0mv5mzzjv53jty *   host1      Ready     Drain          Leader           20.10.18
+ka6in4gdl7p3tcyepkoirbjwl     host2      Ready     Drain          Reachable        20.10.18
+2feh8q5h1p5jhpt2q68kk9eda     host3      Ready     Drain          Reachable        20.10.18
+mir5b33nx15a0woroz0nq3y6l     host4      Ready     Active                          20.10.18
+etqq23dvkocgqso1ul00klg0d     host5      Down      Active                          20.10.18
+n1jwfuop7iw3d1dw2swfi6pnl     host6      Ready     Active                          20.10.18
+
+
+After shout down host5, dockerswam will automatically transfer the httpd service to Host4
+
+
+[root@host4 ~]#  docker ps
+CONTAINER ID   IMAGE          COMMAND              CREATED          STATUS          PORTS     NAMES
+fec702b55cf0   httpd:latest   "httpd-foreground"   27 seconds ago   Up 21 seconds   80/tcp    adoring_moser.1.m4klrmdcs2ogm29191ea088bj
+
+
+_____________________________________________________________________________________________________________________________________________
+
+Activity:2
+
+delet the httpd service:
+
+[root@host1 ~]# docker service ls
+ID             NAME            MODE         REPLICAS   IMAGE          PORTS
+sfg7pm9gl1qw   adoring_moser   replicated   1/1        httpd:latest
+d931r8wrlsxr   apache          replicated   10/10      httpd:latest
+mqna5kono4uu   bold_maxwell    replicated   0/0        httpd:latest
+[root@host1 ~]# docker service rm adoring_moser
+adoring_moser
+
+________________________________________________________________________________________________________________________
+Activity:3
+
+multiple httpd service (10)created and automatically disturbuted (host4/5/6)
+
+[root@host3 ~]# docker service create --replicas=10 --name apache httpd
+d931r8wrlsxrlk4bocjmquw2f
+overall progress: 10 out of 10 tasks
+1/10: running   [==================================================>]
+2/10: running   [==================================================>]
+3/10: running   [==================================================>]
+4/10: running   [==================================================>]
+5/10: running   [==================================================>]
+6/10: running   [==================================================>]
+7/10: running   [==================================================>]
+8/10: running   [==================================================>]
+9/10: running   [==================================================>]
+10/10: running   [==================================================>]
+verify: Service converged
+__________________________________________________________________________
+Activity:4
+
+out of 10 httpd service we are stoping 7
+
+# docker service update --help
+
+[root@host2 ~]# docker service update --replicas=3 apache
+apache
+overall progress: 3 out of 3 tasks
+1/3: running   [==================================================>]
+2/3: running   [==================================================>]
+3/3: running   [==================================================>]
+verify: Service converged
+
+To check the result where exctly is the load:
+
+[root@host1 ~]# docker service ls
+ID             NAME           MODE         REPLICAS   IMAGE          PORTS
+d931r8wrlsxr   apache         replicated   3/3        httpd:latest
+mqna5kono4uu   bold_maxwell   replicated   0/0        httpd:latest
+
+[root@host1 ~]# docker service ps apache
+ID             NAME           IMAGE          NODE      DESIRED STATE   CURRENT STATE            ERROR     PORTS
+5eubq2n940dx   apache.1       httpd:latest   host5     Running         Running 4 minutes ago
+jtpj0e87hhnz    \_ apache.1   httpd:latest   host5     Shutdown        Complete 4 minutes ago
+w7e6a8jmj5xh   apache.2       httpd:latest   host6     Running         Running 13 minutes ago
+kv3w3x8thhqa   apache.5       httpd:latest   host4     Running         Running 13 minutes ago
+
+_____________________________________________________________________________________________________________
+Activity:5
+
+adding port for already runnig httpd service
+docker service update --help
+
+#docker service update apache --publish-add 5000:80
+
+[root@host1 ~]# docker service ls
+ID             NAME      MODE         REPLICAS   IMAGE          PORTS
+d931r8wrlsxr   apache    replicated   3/3        httpd:latest
+
+[root@host1 ~]# docker service update apache --publish-add 5000:80
+apache
+overall progress: 3 out of 3 tasks
+1/3: running   [==================================================>]
+2/3: running   [==================================================>]
+3/3: running   [==================================================>]
+verify: Service converged
+
+
+Note: We can access above httpd page from the 3 master + 3 node ip and port
+
+http://172.31.155.114:5000/  -----master ip
+http://172.31.148.9:5000/ ---node ip
+_________________________________________________________________________________________________________________________
+Activity:5 
+
+If load increase:
+#docker service scale --help
+[root@host3 ~]# docker service scale apache=10
+apache scaled to 10
+overall progress: 10 out of 10 tasks
+1/10: running   [==================================================>]
+2/10: running   [==================================================>]
+3/10: running   [==================================================>]
+4/10: running   [==================================================>]
+5/10: running   [==================================================>]
+6/10: running   [==================================================>]
+7/10: running   [==================================================>]
+8/10: running   [==================================================>]
+9/10: running   [==================================================>]
+10/10: running   [==================================================>]
+verify: Service converged
+
+
+_______________________________________________________________________________________________________
+Activity:6
+
+(docker node promote node - to add and change from node to manager)
+
+convert node(WORKER) host4 to MANAGER(MASTER)
+
+[root@host1 ~]#  docker node promote host4
+Node host4 promoted to a manager in the swarm.
+[root@host1 ~]# docker node ls
+ID                            HOSTNAME   STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
+bwl463xqxif0mv5mzzjv53jty *   host1      Ready     Drain          Leader           20.10.18
+ka6in4gdl7p3tcyepkoirbjwl     host2      Ready     Drain          Reachable        20.10.18
+2feh8q5h1p5jhpt2q68kk9eda     host3      Ready     Drain          Reachable        20.10.18
+mir5b33nx15a0woroz0nq3y6l     host4      Ready     Active         Reachable        20.10.18
+etqq23dvkocgqso1ul00klg0d     host5      Ready     Active                          20.10.18
+n1jwfuop7iw3d1dw2swfi6pnl     host6      Ready     Active                          20.10.18
+
+_________________________________________________________________________________________________________-
+
+Activity:7
+
+to remove from the cluster /MATER 
+
+
+[root@host3 ~]# docker swarm leave --force
+Node left the swarm.
+
+
+[root@host1 ~]# docker node ls
+ID                            HOSTNAME   STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
+bwl463xqxif0mv5mzzjv53jty *   host1      Ready     Drain          Leader           20.10.18
+ka6in4gdl7p3tcyepkoirbjwl     host2      Ready     Drain          Reachable        20.10.18
+2feh8q5h1p5jhpt2q68kk9eda     host3      Down      Drain          Unreachable      20.10.18
+mir5b33nx15a0woroz0nq3y6l     host4      Ready     Active         Reachable        20.10.18
+etqq23dvkocgqso1ul00klg0d     host5      Ready     Active                          20.10.18
+n1jwfuop7iw3d1dw2swfi6pnl     host6      Ready     Active                          20.10.18
+
+to remove from the cluster /Node
+
+[root@host6 ~]# docker swarm leave
+Node left the swarm.
+[root@host6 ~]#
+
+[root@host1 ~]# docker node ls
+ID                            HOSTNAME   STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
+bwl463xqxif0mv5mzzjv53jty *   host1      Ready     Drain          Leader           20.10.18
+ka6in4gdl7p3tcyepkoirbjwl     host2      Ready     Drain          Reachable        20.10.18
+2feh8q5h1p5jhpt2q68kk9eda     host3      Down      Drain          Unreachable      20.10.18
+mir5b33nx15a0woroz0nq3y6l     host4      Ready     Active         Reachable        20.10.18
+etqq23dvkocgqso1ul00klg0d     host5      Ready     Active                          20.10.18
+n1jwfuop7iw3d1dw2swfi6pnl     host6      Down      Active                          20.10.18
+
+________________________________________________________________________________________________________________________
+
+
+
+
+doubt:
+
+1. scale and update diffence
+
+2. icore:
+
+3. docker swarm init --advertise-addr 172.30.203.87
+
+
+4. two type of services - replica vs global
+
+
+
+-----------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
