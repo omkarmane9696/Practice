@@ -28,7 +28,7 @@ git config user.email
 7)git diff
      it show diff between working directory and stageing directory
 
-8)git diff --stage 
+8)git diff --staged 
     it show diff between stageing directory and last commit
 
 9) rm -rf .git 
@@ -130,9 +130,28 @@ git alias means insted of long you  can use short command
 New branch creation in git
 #git checkout -b branch_name
      it is used to create new brach. now new developer can change as he wannts
+	 
+#git branch	 
+#git branch -v
+#git branch --merged
+#git branch --no-merged
+
 
 #git checkout master
    it is used to switch to master branch
+   
+   
+#git push origin branch_name
+  this is used to upload u r local branch to gith hub
+    you must be in same branch_name
+	
+#git push origin branch_name:fix_code
+    in loacl repository branch_name is your branch name if you want change bracnh name in github at the time of push code into the github then you can use this command
+
+#git push origin     or  # git push
+ this is used for upload changes in master branch
+ 
+ 
 
    
 	  
