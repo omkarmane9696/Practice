@@ -1,5 +1,6 @@
 Git Commands
 git config
+git cinfig 1
 git config --global user.name "OMKAR"
 git config --gloabal user.email "omkarmane9696@gmail.com"
 git config --global core.editor vim
